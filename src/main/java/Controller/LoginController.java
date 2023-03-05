@@ -63,7 +63,11 @@ public class LoginController extends HttpServlet {
             } //CREATE USER
             else if (path.equalsIgnoreCase("/signup")) {
                 UserDAO userDAO = new UserDAO();
-
+                String url = "";
+                String errorMessage = "";
+                String errorMessageDate = "";
+                boolean error = true;
+                Date dateOfBirth =null;
                 //AUTO GENERATE USER ID WITH PATTERN US### 
                 String AUTO_USER_ID = String.format("US%03d", (userDAO.listSize() + 1));
 
@@ -73,13 +77,33 @@ public class LoginController extends HttpServlet {
                 String password = request.getParameter("password");
                 String fname = request.getParameter("fname");
                 String lname = request.getParameter("lname");
-                Date dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
+                try {
+                    dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
+                } catch (Exception e) {
+                    errorMessageDate = "invalid Date";
+                    error = false;
+                }
                 String phoneNumber = request.getParameter("phoneNumber");
                 String email = request.getParameter("email");
                 String gender = request.getParameter("gender");
-                UserDTO userDTO = new UserDTO(userID, userName, password, fname, lname, dateOfBirth, 0, phoneNumber, email, gender);
-                //INSERT USER TO DATABASE
-                userDAO.insert(userDTO);
+
+                if (userDAO.selectByUserName(userName)) {
+                    errorMessage += "User Name is already taken";
+                    error = false;
+                }
+                request.setAttribute("errorMessage", errorMessage);
+                request.setAttribute("errorMessageDate", errorMessageDate);
+               
+                
+                
+                if (error == true) {
+                    UserDTO userDTO = new UserDTO(userID, userName, password, fname, lname, dateOfBirth, 0, phoneNumber, email, gender);
+                    //INSERT USER TO DATABASE
+                    userDAO.insert(userDTO);
+                } else {
+                    RequestDispatcher rd = request.getRequestDispatcher("/signup.jsp");
+                    rd.forward(request, response);
+                }
             }
 
         }

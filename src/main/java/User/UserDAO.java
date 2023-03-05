@@ -206,6 +206,49 @@ public class UserDAO implements DAOInterface<UserDTO> {
         return userDTO;
     }
 
+    //Method to check existed username
+    public boolean selectByUserName(String userName) {
+
+        try {
+
+            // Bước 1: tạo kết nối đến CSDL
+            Connection con = DBUtils.getConnection();
+
+            // Bước 2: tạo ra đối tượng statement
+            String sql = "SELECT * FROM [dbo].[User] where username=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, userName);
+
+            // Bước 3: thực thi câu lệnh SQL
+            System.out.println(sql);
+            ResultSet rs = st.executeQuery();
+
+            // Bước 4:
+            if (rs.next()) {
+//                userDTO = new UserDTO();
+//                userDTO.setUserID(rs.getString("userID"));
+//                userDTO.setUserName(rs.getString("username"));
+//                userDTO.setPassword(rs.getString("password"));
+//                userDTO.setFname(rs.getString("fname"));
+//                userDTO.setLname(rs.getString("lname"));
+//                userDTO.setDayOfBirth(rs.getDate("dayOfBirth"));
+//                userDTO.setVisitFrequency(rs.getInt("visitFrequency"));
+//                userDTO.setPhoneNumber(rs.getString("phoneNumber"));
+//                userDTO.setEmail(rs.getString("email"));
+//                userDTO.setGender(rs.getString("gender"));
+//                return userDTO;
+                return true;
+            }
+
+            // Bước 5:
+            DBUtils.closeConnection(con);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Override
     public List<UserDTO> list() {
         String sql = "select * from [dbo].[User]";
@@ -257,11 +300,18 @@ public class UserDAO implements DAOInterface<UserDTO> {
         UserDAO userDAO = new UserDAO();
 //        B = userDAO.login("Olaskadqưe", "Pugre11111");
 //        System.out.println(userDAO.listSize());
-        B = userDAO.selectById("US001");
-        B.setLname("LOOOONG");
-        userDAO.update(B);
+//        B = userDAO.selectById("US001");
+//        B.setLname("LOOOONG");
+//        userDAO.update(B);
+//
+//        System.out.println(B.toString());
 
-        System.out.println(B.toString());
+        if (userDAO.selectByUserName("Oalskad")) {
+            System.out.println("MMB");
+
+        } else {
+            System.out.println("MMVB");
+        }
 //        userDAO.insert(B);
 //         List<UserDTO> listUser = new ArrayList<>();
 //         listUser = userDAO.list();
