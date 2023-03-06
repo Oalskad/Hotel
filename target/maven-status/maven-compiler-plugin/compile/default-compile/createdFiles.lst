@@ -1,7 +1,9 @@
-Admin\AdminDTO.class
-Admin\AdminDAO.class
+Model\UserDTO.class
+dbmanager\DAOInterface.class
+dbmanager\UserDAO.class
 Utils\DBUtils.class
 Controller\LoginController.class
-User\DAOInterface.class
-User\UserDAO.class
-User\UserDTO.class
+Model\TEST.class
+Model\AdminDTO.class
+Controller\BookController.class
+dbmanager\AdminDAO.class

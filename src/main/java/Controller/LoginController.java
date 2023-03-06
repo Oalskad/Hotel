@@ -5,10 +5,10 @@ package Controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Admin.AdminDAO;
-import Admin.AdminDTO;
-import User.UserDAO;
-import User.UserDTO;
+import dbmanager.AdminDAO;
+import Model.AdminDTO;
+import dbmanager.UserDAO;
+import Model.UserDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -45,82 +45,92 @@ public class LoginController extends HttpServlet {
 
             //lOGIN 
             if (path.equalsIgnoreCase("/login")) {
-
-                String url = "";
-                UserDAO userDAO = new UserDAO();
-                String user = (String) request.getParameter("userName");
-                String password = (String) request.getParameter("password");
-
-                UserDTO userDTO = userDAO.login(user, password);
-                if (userDTO != null) {
-                    
-                    session.setAttribute("userDTO", userDTO);
-                    url = "/home.jsp";
-
-                } else {
-                    if (user != null || password != null) {
-                        request.setAttribute("error", "Wrong username or password");
-                    }
-                    url = "/loginJSP.jsp";
-                }
-                RequestDispatcher rd = request.getRequestDispatcher(url);
-                rd.forward(request, response);
-            } 
-
-
-                //CREATE USER
+                login(request, response);
+            } //CREATE USER
             else if (path.equalsIgnoreCase("/signup")) {
-                UserDAO userDAO = new UserDAO();
-                String url = "";
-                String errorMessage = "";
-                String errorMessageDate = "";
-                boolean error = true;
-                Date dateOfBirth = null;
-
-                //AUTO GENERATE USER ID WITH PATTERN US### 
-                String AUTO_USER_ID = String.format("US%03d", (userDAO.generateNextUserID()));
-
-                //USER CONSTRUCTOR
-                String userID = AUTO_USER_ID;
-                String userName = request.getParameter("userName");
-                String password = request.getParameter("password");
-                String fname = request.getParameter("fname");
-                String lname = request.getParameter("lname");
-                try {
-                    dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
-                } catch (Exception e) {
-                    errorMessageDate = "invalid Date";
-                    error = false;
-                }
-                String phoneNumber = request.getParameter("phoneNumber");
-                String email = request.getParameter("email");
-                String gender = request.getParameter("gender");
-
-                if (userDAO.selectByUserName(userName)) {
-                    errorMessage += "User Name is already taken";
-                    error = false;
-                }
-                request.setAttribute("errorMessage", errorMessage);
-                request.setAttribute("errorMessageDate", errorMessageDate);
-
-                if (error == true) {
-                    UserDTO userDTO = new UserDTO(userID, userName, password, fname, lname, dateOfBirth, 0, phoneNumber, email, gender);
-                    userDAO.insert(userDTO);
-                    RequestDispatcher rd = request.getRequestDispatcher("/loginJSP.jsp");
-                    rd.forward(request, response);
-                } else {
-                    RequestDispatcher rd = request.getRequestDispatcher("/signup.jsp");
-                    rd.forward(request, response);
-                }
-            }
-            
-            
-            else if(path.equalsIgnoreCase("/logout")){
-                session.invalidate();
-                RequestDispatcher rd = request.getRequestDispatcher("/loginJSP.jsp");
-                rd.forward(request, response);
+                createUser(request, response);
+            } else if (path.equalsIgnoreCase("/logout")) {
+                logout(request, response);
             }
 
+        }
+    }
+
+    //Method logout
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        RequestDispatcher rd = request.getRequestDispatcher("/loginJSP.jsp");
+        rd.forward(request, response);
+    }
+
+    //Method login
+    public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String url = "";
+        HttpSession session = request.getSession();
+        UserDAO userDAO = new UserDAO();
+        String user = (String) request.getParameter("userName");
+        String password = (String) request.getParameter("password");
+
+        UserDTO userDTO = userDAO.login(user, password);
+        if (userDTO != null) {
+            
+            session.setAttribute("userDTO", userDTO);
+            url = "/home.jsp";
+
+        } else {
+            if (user != null || password != null) {
+                request.setAttribute("error", "Wrong username or password");
+            }
+            url = "/loginJSP.jsp";
+        }
+        RequestDispatcher rd = request.getRequestDispatcher(url);
+        rd.forward(request, response);
+    }
+
+    //Method signup
+    public void createUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserDAO userDAO = new UserDAO();
+        String url = "";
+        String errorMessage = "";
+        String errorMessageDate = "";
+        boolean error = true;
+        Date dateOfBirth = null;
+
+        //AUTO GENERATE USER ID WITH PATTERN US### 
+        String AUTO_USER_ID = String.format("US%03d", (userDAO.generateNextUserID()));
+
+        //USER CONSTRUCTOR
+        String userID = AUTO_USER_ID;
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String fname = request.getParameter("fname");
+        String lname = request.getParameter("lname");
+        try {
+            dateOfBirth = Date.valueOf(request.getParameter("dateOfBirth"));
+        } catch (Exception e) {
+            errorMessageDate = "invalid Date";
+            error = false;
+        }
+        String phoneNumber = request.getParameter("phoneNumber");
+        String email = request.getParameter("email");
+        String gender = request.getParameter("gender");
+
+        if (userDAO.selectByUserName(userName)) {
+            errorMessage += "User Name is already taken";
+            error = false;
+        }
+        request.setAttribute("errorMessage", errorMessage);
+        request.setAttribute("errorMessageDate", errorMessageDate);
+
+        if (error == true) {
+            UserDTO userDTO = new UserDTO(userID, userName, password, fname, lname, dateOfBirth, 0, phoneNumber, email, gender);
+            userDAO.insert(userDTO);
+            RequestDispatcher rd = request.getRequestDispatcher("/loginJSP.jsp");
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("/signup.jsp");
+            rd.forward(request, response);
         }
     }
 
