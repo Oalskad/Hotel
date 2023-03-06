@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,38 +39,46 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getPathInfo();
-
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
             //lOGIN 
             if (path.equalsIgnoreCase("/login")) {
+
+                String url = "";
                 UserDAO userDAO = new UserDAO();
                 String user = (String) request.getParameter("userName");
                 String password = (String) request.getParameter("password");
 
                 UserDTO userDTO = userDAO.login(user, password);
                 if (userDTO != null) {
-                    out.print(path);
-                    out.print("Success");
+                    
+                    session.setAttribute("userDTO", userDTO);
+                    url = "/home.jsp";
 
                 } else {
                     if (user != null || password != null) {
                         request.setAttribute("error", "Wrong username or password");
                     }
-                    RequestDispatcher rd = request.getRequestDispatcher("/loginJSP.jsp");
-                    rd.forward(request, response);
+                    url = "/loginJSP.jsp";
                 }
-            } //CREATE USER
+                RequestDispatcher rd = request.getRequestDispatcher(url);
+                rd.forward(request, response);
+            } 
+
+
+                //CREATE USER
             else if (path.equalsIgnoreCase("/signup")) {
                 UserDAO userDAO = new UserDAO();
                 String url = "";
                 String errorMessage = "";
                 String errorMessageDate = "";
                 boolean error = true;
-                Date dateOfBirth =null;
+                Date dateOfBirth = null;
+
                 //AUTO GENERATE USER ID WITH PATTERN US### 
-                String AUTO_USER_ID = String.format("US%03d", (userDAO.listSize() + 1));
+                String AUTO_USER_ID = String.format("US%03d", (userDAO.generateNextUserID()));
 
                 //USER CONSTRUCTOR
                 String userID = AUTO_USER_ID;
@@ -93,17 +102,23 @@ public class LoginController extends HttpServlet {
                 }
                 request.setAttribute("errorMessage", errorMessage);
                 request.setAttribute("errorMessageDate", errorMessageDate);
-               
-                
-                
+
                 if (error == true) {
                     UserDTO userDTO = new UserDTO(userID, userName, password, fname, lname, dateOfBirth, 0, phoneNumber, email, gender);
-                    //INSERT USER TO DATABASE
                     userDAO.insert(userDTO);
+                    RequestDispatcher rd = request.getRequestDispatcher("/loginJSP.jsp");
+                    rd.forward(request, response);
                 } else {
                     RequestDispatcher rd = request.getRequestDispatcher("/signup.jsp");
                     rd.forward(request, response);
                 }
+            }
+            
+            
+            else if(path.equalsIgnoreCase("/logout")){
+                session.invalidate();
+                RequestDispatcher rd = request.getRequestDispatcher("/loginJSP.jsp");
+                rd.forward(request, response);
             }
 
         }

@@ -24,7 +24,7 @@ public class UserDAO implements DAOInterface<UserDTO> {
     // Method check login
     public UserDTO login(String userName, String password) {
         UserDTO userDTO = null;
-        String sql = "select username, password from [dbo].[User]"
+        String sql = "select * from [dbo].[User]"
                 + " where username = ? and password = ?  ";
         try {
             Connection conn = DBUtils.getConnection();
@@ -36,8 +36,17 @@ public class UserDAO implements DAOInterface<UserDTO> {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 userDTO = new UserDTO();
+                 
+                userDTO.setUserID(rs.getString("userID"));
                 userDTO.setUserName(rs.getString("username"));
-                userDTO.setUserName(rs.getString("password"));
+                userDTO.setPassword(rs.getString("password"));
+                userDTO.setFname(rs.getString("fname"));
+                userDTO.setLname(rs.getString("lname"));
+                userDTO.setDayOfBirth(rs.getDate("dayOfBirth"));
+                userDTO.setVisitFrequency(rs.getInt("visitFrequency"));
+                userDTO.setPhoneNumber(rs.getString("phoneNumber"));
+                userDTO.setEmail(rs.getString("email"));
+                userDTO.setGender(rs.getString("gender"));
                 return userDTO;
             }
         } catch (Exception ex) {
@@ -285,6 +294,19 @@ public class UserDAO implements DAOInterface<UserDTO> {
         return listUser.size();
     }
 
+    //Generate next user ID by add 1 to the last ID
+    public int generateNextUserID() {
+        List<UserDTO> list = list();
+        try {
+            UserDTO e = list.get(list.size() - 1);
+            int numberOnly = Integer.parseInt(e.getUserID().replaceAll("[^0-9]", ""));
+            return numberOnly + 1;
+        } catch (Exception e) {
+
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
 
 //        int a =0;
@@ -305,13 +327,13 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //        userDAO.update(B);
 //
 //        System.out.println(B.toString());
-
-        if (userDAO.selectByUserName("Oalskad")) {
-            System.out.println("MMB");
-
-        } else {
-            System.out.println("MMVB");
-        }
+        System.out.println(userDAO.generateNextUserID());
+//        if (userDAO.selectByUserName("Oalskad")) {
+//            System.out.println("MMB");
+//
+//        } else {
+//            System.out.println("MMVB");
+//        }
 //        userDAO.insert(B);
 //         List<UserDTO> listUser = new ArrayList<>();
 //         listUser = userDAO.list();

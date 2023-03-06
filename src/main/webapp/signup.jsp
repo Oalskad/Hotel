@@ -122,7 +122,7 @@
                                         <div class="col-md-6 mb-4 pb-2">
 
                                             <div class="form-outline">
-                                                <input type="text" id="phoneNumber" class="form-control form-control-lg" name="phoneNumber" required="required" />
+                                                <input type="tel" placeholder="xxx-xxx-xxx" pattern="[0-9]{9}" id="phoneNumber" class="form-control form-control-lg" name="phoneNumber" required="required" />
                                                 <label class="form-label" for="phoneNumber">Phone Number</label>
                                             </div>
 
