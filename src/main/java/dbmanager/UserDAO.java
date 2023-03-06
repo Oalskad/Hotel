@@ -323,9 +323,12 @@ public class UserDAO implements DAOInterface<UserDTO> {
         UserDAO userDAO = new UserDAO();
 //        B = userDAO.login("Olaskadqưe", "Pugre11111");
 //        System.out.println(userDAO.listSize());
-//        B = userDAO.selectById("US001");
-//        B.setLname("LOOOONG");
-//        userDAO.update(B);
+        B = userDAO.selectById("US001");
+        System.out.println(B.toString());
+        B.setLname("LOONG");
+        
+        
+        userDAO.update(B);
 //
 //        System.out.println(B.toString());
         System.out.println(userDAO.generateNextUserID());
