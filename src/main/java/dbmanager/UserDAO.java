@@ -37,7 +37,7 @@ public class UserDAO implements DAOInterface<UserDTO> {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 userDTO = new UserDTO();
-                 
+
                 userDTO.setUserID(rs.getString("userID"));
                 userDTO.setUserName(rs.getString("username"));
                 userDTO.setPassword(rs.getString("password"));
@@ -318,20 +318,19 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //         String str="2005-03-31";  
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
-        UserDTO B = new UserDTO();
-
-        UserDAO userDAO = new UserDAO();
+//        UserDTO B = new UserDTO();
+  
 //        B = userDAO.login("Olaskadqưe", "Pugre11111");
 //        System.out.println(userDAO.listSize());
-        B = userDAO.selectById("US001");
-        System.out.println(B.toString());
-        B.setLname("LOONG");
-        
-        
-        userDAO.update(B);
+
+//        B = userDAO.selectById("US001");
+//        System.out.println(B.toString());
+//        B.setLname("LOONG");
+//        
+//        userDAO.update(B);
 //
 //        System.out.println(B.toString());
-        System.out.println(userDAO.generateNextUserID());
+//        System.out.println(userDAO.generateNextUserID());
 //        if (userDAO.selectByUserName("Oalskad")) {
 //            System.out.println("MMB");
 //
@@ -339,12 +338,12 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //            System.out.println("MMVB");
 //        }
 //        userDAO.insert(B);
-//         List<UserDTO> listUser = new ArrayList<>();
-//         listUser = userDAO.list();
-//         for(UserDTO a : listUser)
-//         {
-//             System.out.println("a");
-//             System.out.println(a.getUserID());
-//        }
+        UserDAO userDAO = new UserDAO();
+        List<UserDTO> listUser = new ArrayList<>();
+        listUser = userDAO.list();
+        for (UserDTO a : listUser) {
+
+            System.out.println(a.toString());
+        }
     }
 }
