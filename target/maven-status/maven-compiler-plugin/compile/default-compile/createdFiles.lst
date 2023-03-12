@@ -1,11 +1,11 @@
 Model\RoomDTO.class
 Model\UserDTO.class
 Model\ReceiptDTO.class
+Model\roomTypeDTO.class
 dbmanager\DAOInterface.class
 dbmanager\CouponDAO.class
 dbmanager\ServiceDAO.class
 dbmanager\ReceiptDAO.class
-DTO\roomTypeDTO.class
 Model\ServiceDTO.class
 Utils\DBUtils.class
 dbmanager\EmployeeDAO.class
@@ -16,7 +16,7 @@ Model\EmployeeDTO.class
 Model\ReviewDTO.class
 Controller\LoginController.class
 Model\CouponDTO.class
-Model\TEST.class
 dbmanager\ReviewDAO.class
 Model\AdminDTO.class
+Controller\HomePageController.class
 dbmanager\AdminDAO.class

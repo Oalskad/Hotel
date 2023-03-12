@@ -43,7 +43,7 @@
                                                 <% if (error != null) {%> <%= error%> <% }%>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input type="text" name="userName" id="form2Example11" class="form-control"
+                                                <input type="text" name="userName" id="form2Example11" class="form-control" 
                                                        placeholder="Enter User Name" />
                                                 <label class="form-label" for="form2Example11">Username</label>
                                             </div>

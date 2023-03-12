@@ -13,8 +13,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -309,7 +312,12 @@ public class UserDAO implements DAOInterface<UserDTO> {
     }
 
     public static void main(String[] args) {
+         UserDAO userDAO = new UserDAO();
+ String AUTO_USER_ID = String.format("US%03d", (userDAO.generateNextUserID()));
 
+        //USER CONSTRUCTOR
+        String userID = AUTO_USER_ID;
+        System.out.println(userID);
 //        int a =0;
 //        for(a=0 ; a<10;a++){
 //        String formatted = String.format("US%03d", a);
@@ -319,11 +327,17 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
 //        UserDTO B = new UserDTO();
-  
-//        B = userDAO.login("Olaskadqưe", "Pugre11111");
-//        System.out.println(userDAO.listSize());
-
+       
+////        B = userDAO.login("Olaskadqưe", "Pugre11111");
+////        System.out.println(userDAO.listSize());
+//
 //        B = userDAO.selectById("US001");
+//      
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(B.getDayOfBirth());
+//      int day = cal.get(Calendar.DAY_OF_MONTH);
+//        System.out.println(B.getDayOfBirth().toString());
+//        System.out.println(day);
 //        System.out.println(B.toString());
 //        B.setLname("LOONG");
 //        
@@ -338,12 +352,12 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //            System.out.println("MMVB");
 //        }
 //        userDAO.insert(B);
-        UserDAO userDAO = new UserDAO();
-        List<UserDTO> listUser = new ArrayList<>();
-        listUser = userDAO.list();
-        for (UserDTO a : listUser) {
-
-            System.out.println(a.toString());
-        }
+        
+//        List<UserDTO> listUser = new ArrayList<>();
+//        listUser = userDAO.list();
+//        for (UserDTO a : listUser) {
+//
+//            System.out.println(a.toString());
+//        }
     }
 }

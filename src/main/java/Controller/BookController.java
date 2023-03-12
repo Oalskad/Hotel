@@ -5,16 +5,28 @@
  */
 package Controller;
 
-import Model.TEST;
+import Model.CouponDTO;
+import Model.ReceiptDTO;
+import Model.RoomDTO;
+import Model.ServiceDTO;
 import Model.UserDTO;
+import dbmanager.CouponDAO;
+import dbmanager.ReceiptDAO;
+import dbmanager.RoomDAO;
+import dbmanager.ServiceDAO;
+import dbmanager.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.util.Calendar;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sun.security.rsa.RSACore;
 
 /**
  *
@@ -35,28 +47,135 @@ public class BookController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String path = request.getPathInfo();
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            UserDTO userDTO = new UserDTO();
-            if(session.getAttribute("userDTO") !=null)
-            userDTO = (UserDTO)session.getAttribute("userDTO");
-//            
-//            out.print(userDTO.toString());
-//            out.print("eqweqw");
+            if (path.equals("/detail")) {
+                out.print("ewqeqweqewqewqwe");
+                HttpSession session = request.getSession();
+                UserDTO userDTO = new UserDTO();
+                if (session.getAttribute("userDTO") != null) {
+                    userDTO = (UserDTO) session.getAttribute("userDTO");
+                }
+                out.print(userDTO.getUserName());
+                String roomID = null;
+                RoomDTO roomDTO = null;
+                roomID = request.getParameter("roomID");
+                if (roomID != null) {
+                    RoomDAO roomDAO = new RoomDAO();
+                    roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
+                    out.print("succcesss");
+                    out.print(roomDTO.toString());
+                }
+                request.setAttribute("roomDTO", roomDTO);
+                out.print(path);
+                RequestDispatcher rd = request.getRequestDispatcher("/BookPage.jsp");
+                rd.forward(request, response);
+            } else if (path.equals("/book")) {
+                createReceipt(request, response);
 
-            TEST test = new TEST();
-            test.setUserDTO(userDTO);
-            
-            out.print(test.getUserDTO().getUserID());
-            
+    }
+
+    public ReceiptDTO createReceipt(HttpServletRequest request, HttpServletResponse response) {
+
+        HttpSession session = request.getSession();
+        UserDAO userDAO = new UserDAO();
+        UserDTO userDTO = new UserDTO();
+        if (session.getAttribute("userDTO") != null) {
+            userDTO = (UserDTO) session.getAttribute("userDTO");
         }
+
+        RoomDAO roomDAO = new RoomDAO();
+        RoomDTO roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
+
+        ServiceDAO serviceDAO = new ServiceDAO();
+        ServiceDTO serviceDTO = new ServiceDTO();
+        if (serviceDAO.selectById(request.getParameter("serviceName")) != null) {
+
+           serviceDTO = serviceDAO.selectById(request.getParameter("couponName"));
+        }
+        //CouponDTO 
+        CouponDAO couponDAO = new CouponDAO();
+        CouponDTO couponDTO = new CouponDTO();
+        if (couponDAO.selectByName(request.getParameter("couponName")) != null) {
+
+            couponDTO = couponDAO.selectByName(request.getParameter("couponName"));
+        }
+
+//ReceiptDTO(CouponDTO couponDTO, UserDTO userDTO, RoomDTO roomDTO, EmployeeDTO employeeDTO, ServiceDTO serviceDTO, String receiptID, String detail, int cardNumber, Date startDate, Date endDate, double finalPrice)
+        ReceiptDAO receiptDAO = new ReceiptDAO();
+        ReceiptDTO receiptDTO = new ReceiptDTO();
+
+        //Auto create ID
+        String RECEIPT_ID = String.format("RC%03d", (receiptDAO.generateNextReceiptID()));
+        String receiptID = RECEIPT_ID;
+
+        //GET startDate and endDate
+        Date startDate = null;
+        try {
+            startDate = Date.valueOf(request.getParameter("startDate"));
+        } catch (Exception e) {
+
+        }
+        Date endDate = null;
+        try {
+            endDate = Date.valueOf(request.getParameter("endDate"));
+        } catch (Exception e) {
+
+        }
+
+        //Method to caculate days booked
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+        int intStarDate = cal.get(Calendar.DAY_OF_MONTH);
+        cal = Calendar.getInstance();
+        cal.setTime(endDate);
+        int intEndDate = cal.get(Calendar.DAY_OF_MONTH);
+        int daysBooked = intEndDate - intStarDate;
+
+        receiptDTO.setReceiptID(receiptID);
+        receiptDTO.setCouponDTO(couponDTO);
+
+        receiptDTO.setServiceDTO(serviceDTO);
+
+        receiptDTO.setUserDTO(userDTO);
+        receiptDTO.setRoomDTO(roomDTO);
+
+        receiptDTO.setEmployeeDTO(roomDTO.getEmployeeDTO());
+
+        receiptDTO.setDetail(request.getParameter("detail"));
+
+        receiptDTO.setCardNumber(Integer.parseInt(request.getParameter("cardNumber")));
+
+        receiptDTO.setStartDate(startDate);
+        receiptDTO.setEndDate(endDate);
         
-        
-        
-        
-        
-        
+
+    
+        receiptDTO.setFinalPrice(finalPrice(request, response, daysBooked, roomDTO, couponDTO, serviceDTO));
+
+        receiptDAO.insert(receiptDTO);
+        userDTO.setVisitFrequency(userDTO.getVisitFrequency() + 1);
+        userDAO.update(userDTO);
+
+        return null;
+
+    }
+
+    public double finalPrice(HttpServletRequest request, HttpServletResponse response, int daysBooked, RoomDTO roomDTO, CouponDTO couponDTO, ServiceDTO serviceDTO) {
+        double finalPrice = 0;
+        double servicePrice = 1;
+        double coupon = 1;
+        double dailyPrice = roomDTO.getDailyPrice();
+        if (couponDTO.getCouponID() != null) {
+            coupon = couponDTO.getDiscount();
+        }
+        if (serviceDTO.getServID() != null) {
+            servicePrice = serviceDTO.getPrice();
+        }
+
+        return finalPrice = ((dailyPrice * daysBooked + servicePrice) * coupon);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

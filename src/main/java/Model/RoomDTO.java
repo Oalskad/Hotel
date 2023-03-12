@@ -10,30 +10,33 @@ package Model;
  * @author iba
  */
 public class RoomDTO {
+    private String roomID;
     private String type; //fk
-    private String name;
+
     private int numberOfBed;
     private String bedType;
-    private String desc;
+   
     
-    private String roomID;
+   
     private boolean status;
+
+  
     private EmployeeDTO employeeDTO;
     private double dailyPrice;
+    private String description;
 
-    public RoomDTO(String type, String name, int numberOfBed, String bedType, String desc, String roomID, boolean status, EmployeeDTO employeeDTO_ID, double dailyPrice) {
+  public RoomDTO() {
+    }
+
+    public RoomDTO(String type, int numberOfBed, String bedType, String description, String roomID, boolean status, EmployeeDTO employeeDTO, double dailyPrice) {
         this.type = type;
-        this.name = name;
         this.numberOfBed = numberOfBed;
         this.bedType = bedType;
-        this.desc = desc;
+        this.description = description;
         this.roomID = roomID;
         this.status = status;
         this.employeeDTO = employeeDTO;
         this.dailyPrice = dailyPrice;
-    }
-
-    public RoomDTO() {
     }
 
     public String getType() {
@@ -42,14 +45,6 @@ public class RoomDTO {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getNumberOfBed() {
@@ -68,12 +63,12 @@ public class RoomDTO {
         this.bedType = bedType;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getRoomID() {
@@ -110,9 +105,10 @@ public class RoomDTO {
 
     @Override
     public String toString() {
-        return "RoomDTO{" + "type=" + type + ", name=" + name + ", numberOfBed=" + numberOfBed + ", bedType=" + bedType + ", desc=" + desc + ", roomID=" + roomID + ", status=" + status + ", employeeDTO=" + employeeDTO + ", dailyPrice=" + dailyPrice + '}';
+        return "RoomDTO{" + "roomID=" + roomID + ", type=" + type + ", numberOfBed=" + numberOfBed + ", bedType=" + bedType + ", status=" + status + ", employeeDTO=" + employeeDTO + ", dailyPrice=" + dailyPrice + ", description=" + description + '}';
     }
 
+    
    
 
     

@@ -14,7 +14,9 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletResponse;
+
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +41,7 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getPathInfo();
-        HttpSession session = request.getSession();
+    
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
@@ -71,27 +73,29 @@ public class LoginController extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         String user = (String) request.getParameter("userName");
         String password = (String) request.getParameter("password");
+        
 
         UserDTO userDTO = userDAO.login(user, password);
         if (userDTO != null) {
             
             session.setAttribute("userDTO", userDTO);
-            url = "/home.jsp";
+            response.sendRedirect(request.getContextPath()+"/HomePage");
 
         } else {
             if (user != null || password != null) {
                 request.setAttribute("error", "Wrong username or password");
             }
             url = "/loginJSP.jsp";
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
         }
-        RequestDispatcher rd = request.getRequestDispatcher(url);
-        rd.forward(request, response);
+        
     }
 
     //Method signup
     public void createUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
-        String url = "";
+        
         String errorMessage = "";
         String errorMessageDate = "";
         boolean error = true;

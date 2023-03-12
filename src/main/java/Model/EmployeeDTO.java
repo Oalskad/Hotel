@@ -24,7 +24,7 @@ public class EmployeeDTO {
     }
 
     public EmployeeDTO() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     @Override

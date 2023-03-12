@@ -21,6 +21,15 @@
         <servlet-name>BookController</servlet-name>
         <url-pattern>/Book/*</url-pattern>
     </servlet-mapping>
+    
+     <servlet>
+        <servlet-name>HomePageController</servlet-name>
+        <servlet-class>Controller.HomePageController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HomePageController</servlet-name>
+        <url-pattern>/HomePage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

@@ -46,7 +46,7 @@ public class ServiceDAO {
 
     //Override method insert
     public boolean insert(ServiceDTO serviceDTO) {
-        String sql = "INSERT INTO [dbo].[Service](servID, servName, price, desc, empID)"
+        String sql = "INSERT INTO [dbo].[Service](servID, servName, price, [desc], empID)"
                 + " values(?, ?, ?, ?, ?)";
 //        INSERT INTO table_name(column1, column2, column3, ...)
 //        VALUES(value1, value2, value3, ...);
@@ -183,7 +183,7 @@ public class ServiceDAO {
                     serviceDTO.setServName(rs.getString("servName"));
                     serviceDTO.setPrice(rs.getDouble("price"));
                     serviceDTO.setDesc(rs.getString("desc"));
-                    serviceDTO.setEmployeeDTO(employeeDAO.selectById(rs.getString("employeeID")));
+                    serviceDTO.setEmployeeDTO(employeeDAO.selectById(rs.getString("empID")));
                 return serviceDTO;
             }
 
@@ -284,9 +284,15 @@ public class ServiceDAO {
 //         String str="2005-03-31";  
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
-        ServiceDTO B = new ServiceDTO();
+            ServiceDAO serviceDAO = new ServiceDAO();
+        ServiceDTO serviceDTO = new ServiceDTO();
+        
+        serviceDTO = serviceDAO.selectById("SV004");
+               
+                if (serviceDTO != null) {
 
-        UserDAO userDAO = new UserDAO();
+            System.out.println(serviceDTO.toString());    
+        }
 //        B = userDAO.login("Olaskadqưe", "Pugre11111");
 //        System.out.println(userDAO.listSize());
 //        B = userDAO.selectById("US001");
@@ -295,12 +301,7 @@ public class ServiceDAO {
 //
 //        System.out.println(B.toString());
 
-        if (userDAO.selectByUserName("Oalskad")) {
-            System.out.println("MMB");
-
-        } else {
-            System.out.println("MMVB");
-        }
+       
 //        userDAO.insert(B);
 //         List<ServiceDTO> listUser = new ArrayList<>();
 //         listUser = userDAO.list();

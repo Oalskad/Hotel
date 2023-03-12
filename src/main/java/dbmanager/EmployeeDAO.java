@@ -155,7 +155,7 @@ public class EmployeeDAO {
             // Bước 4:
             while (rs.next()) {
                 employeeDTO = new EmployeeDTO();
-                employeeDTO.setEmployeeID("employeeID");
+                employeeDTO.setEmployeeID(rs.getString("employeeID"));
                 employeeDTO.setFname(rs.getString("fname"));
                 employeeDTO.setLname(rs.getString("lname"));
                 employeeDTO.setPhone(rs.getInt("phone"));
@@ -237,7 +237,7 @@ public class EmployeeDAO {
             }
             return listEmployee;
         } catch (Exception ex) {
-            System.out.println("Query admin error!" + ex.getMessage());
+            System.out.println("Query Empoyloyee error!" + ex.getMessage());
         }
         return null;
 

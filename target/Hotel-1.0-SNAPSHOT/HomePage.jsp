@@ -5,6 +5,8 @@
 --%>
 
 
+<%@page import="Model.RoomDTO"%>
+<%@page import="java.util.List"%>
 <%@page import="Model.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -32,6 +34,26 @@
             <input class="btn btn-outline-danger"  type="submit" value="Logout"></input>
         </form>
         <% }%>
+        
+        
+        <% List<RoomDTO> listRoom = (List<RoomDTO>)request.getAttribute("listRoom"); %>
+        
+        <% for(RoomDTO a : listRoom){ %>
+        <form action="/Hotel/Book/detail" method="POST">
+        <%
+            out.println(a.toString());    
+            String room =a.getRoomID();
+            %>
+            <input type="hidden" name="roomID" value="<%=room%>">  
+            <input type='submit' value='go'>
+            <br></br>
+        </form>
+             
+        <% } %>
+        
+        
+        
+        
 
 
 

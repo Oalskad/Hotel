@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class CouponDAO implements DAOInterface<CouponDTO> {
 
-    //Tim User theo ID
-    public CouponDTO selectById(String couponID) {
+    
+     public CouponDTO selectByName(String couponName) {
         CouponDTO couponDTO = null;
         try {
 
@@ -30,7 +30,46 @@ public class CouponDAO implements DAOInterface<CouponDTO> {
             Connection con = DBUtils.getConnection();
 
             // Bước 2: tạo ra đối tượng statement
-            String sql = "SELECT * FROM [dbo].[Coupons]] where couponID=?";
+            String sql = "SELECT * FROM [dbo].[Coupons] where name =?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, couponName);
+
+            // Bước 3: thực thi câu lệnh SQL
+            System.out.println(sql);
+            ResultSet rs = st.executeQuery();
+
+            // Bước 4:
+            while (rs.next()) {
+
+                couponDTO = new CouponDTO();
+                couponDTO.setCouponID(rs.getString("couponID"));
+                couponDTO.setName(rs.getString("name"));
+                couponDTO.setDiscount(rs.getDouble("discount"));
+
+                return couponDTO;
+            }
+
+            // Bước 5:
+            DBUtils.closeConnection(con);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return couponDTO;
+    }
+    
+    
+    
+    //Tim User theo ID
+    public CouponDTO selectById(String couponID) {
+        CouponDTO couponDTO = new CouponDTO();
+        try {
+
+            // Bước 1: tạo kết nối đến CSDL
+            Connection con = DBUtils.getConnection();
+
+            // Bước 2: tạo ra đối tượng statement
+            String sql = "SELECT * FROM [dbo].[Coupons] where couponID= ?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, couponID);
 
@@ -184,15 +223,22 @@ public class CouponDAO implements DAOInterface<CouponDTO> {
 
     public static void main(String[] args) {
         CouponDAO couponDAO = new CouponDAO();
-        List<CouponDTO> listCoupon = couponDAO.list();
+        CouponDTO couponDTO = new CouponDTO();
+        
+        
+        couponDTO = couponDAO.selectByName("WELCOME");
+        System.out.println(couponDTO.toString());
+//        couponDTO.setCouponID("CP008");
+//        couponDAO.insert(couponDTO);
+//        List<CouponDTO> listCoupon = couponDAO.list();
+//
+//        for (CouponDTO a : listCoupon) {
+//            System.out.println(a.toString());
+//
+//        }
 
-        for (CouponDTO a : listCoupon) {
-            System.out.println(a.toString());
-
-        }
-
-        CouponDTO couponDTO = new CouponDTO("CO003", null, 0.5);
-
-        couponDAO.insert(couponDTO);
+//        CouponDTO couponDTO = couponDAO.selectByName("WELCOME");
+//
+//        System.out.println(couponDTO==null);
     }
 }
