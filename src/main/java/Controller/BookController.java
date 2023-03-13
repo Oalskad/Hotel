@@ -37,7 +37,7 @@ import sun.security.rsa.RSACore;
  */
 @WebServlet(name = "BookController", urlPatterns = {"/BookController"})
 public class BookController extends HttpServlet {
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -77,7 +77,7 @@ public class BookController extends HttpServlet {
                 listService = serviceDAO.list();
 
                 Date date = Date.valueOf(LocalDate.now());
-                
+
                 request.setAttribute("date", date);
                 request.setAttribute("listService", listService);
                 request.setAttribute("roomDTO", roomDTO);
@@ -85,11 +85,46 @@ public class BookController extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("/BookPage.jsp");
                 rd.forward(request, response);
             } else if (path.equals("/book")) {
+//                 Date startDate = null;
+//            try {
+//                startDate = Date.valueOf(request.getParameter("startDate"));
+//            } catch (Exception e) {
+//            }
+//
+//            Date endDate = null;
+//            try {
+//                endDate = Date.valueOf(request.getParameter("endDate"));
+//            } catch (Exception e) {
+//
+//            }
+
+            //Method to caculate days booked
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(startDate); // .LocalDate();
+//            int intStarDate = cal.get(Calendar.DAY_OF_MONTH);
+//            cal = Calendar.getInstance();
+//            cal.setTime(endDate);
+//            int intEndDate = cal.get(Calendar.DAY_OF_MONTH);
+//            int daysBooked = intEndDate - intStarDate;
+//                out.print(daysBooked);
+//                ServiceDAO serviceDAO = new ServiceDAO();
+//            ServiceDTO serviceDTO = new ServiceDTO();
+//            CouponDAO couponDAO = new CouponDAO();
+//            CouponDTO couponDTO = new CouponDTO();
+//            
+//            RoomDAO roomDAO = new RoomDAO();
+//            RoomDTO roomDTO = roomDAO.selectByRoomID("RO001");
+//               double a = finalPrice(daysBooked, roomDTO, couponDTO, serviceDTO);
+//               out.print(a);
+              
                 ReceiptDTO receiptDTO = createReceipt(request, response);
-                if(receiptDTO !=null){
-                out.print(receiptDTO.toString());}
-                else{
+                try{
+                if (receiptDTO != null) {
+                    out.print(receiptDTO.toString());
+                } else {
                     out.print("12313123");
+                }}catch(Exception e){
+                    out.print(e);
                 }
             }
         }
@@ -99,92 +134,93 @@ public class BookController extends HttpServlet {
         ReceiptDTO receiptDTO = null;
         RoomDAO roomDAO = new RoomDAO();
         RoomDTO roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
-        if(roomDTO.isStatus()){
-        receiptDTO = new ReceiptDTO();
-        HttpSession session = request.getSession();
-        UserDAO userDAO = new UserDAO();
-        UserDTO userDTO = new UserDTO();
-        if (session.getAttribute("userDTO") != null) {
-            userDTO = (UserDTO) session.getAttribute("userDTO");
-        }
-
-        
+        if (roomDTO.isStatus()) {
+            receiptDTO = new ReceiptDTO();
+            HttpSession session = request.getSession();
+            UserDAO userDAO = new UserDAO();
+            UserDTO userDTO = new UserDTO();
+            if (session.getAttribute("userDTO") != null) {
+                userDTO = (UserDTO) session.getAttribute("userDTO");
+            }
 
 //        String[] service = request.getParameterValues("service");
-        ServiceDAO serviceDAO = new ServiceDAO();
-        ServiceDTO serviceDTO = new ServiceDTO();
-        if (serviceDAO.selectById(request.getParameter("service")) != null) {
+            ServiceDAO serviceDAO = new ServiceDAO();
+            ServiceDTO serviceDTO = new ServiceDTO();
+            if (serviceDAO.selectById(request.getParameter("service")) != null) {
 
-            serviceDTO = serviceDAO.selectById(request.getParameter("service"));
-        }
-        //CouponDTO 
-        CouponDAO couponDAO = new CouponDAO();
-        CouponDTO couponDTO = new CouponDTO();
-        if (couponDAO.selectByName(request.getParameter("couponName")) != null) {
+                serviceDTO = serviceDAO.selectById(request.getParameter("service"));
+            }
+            //CouponDTO 
+            CouponDAO couponDAO = new CouponDAO();
+            CouponDTO couponDTO = new CouponDTO();
+            if (couponDAO.selectByName(request.getParameter("couponName")) != null) {
 
-            couponDTO = couponDAO.selectByName(request.getParameter("couponName"));
-        }
+                couponDTO = couponDAO.selectByName(request.getParameter("couponName"));
+            }
 
 //ReceiptDTO(CouponDTO couponDTO, UserDTO userDTO, RoomDTO roomDTO, EmployeeDTO employeeDTO, ServiceDTO serviceDTO, String receiptID, String detail, int cardNumber, Date startDate, Date endDate, double finalPrice)
-        ReceiptDAO receiptDAO = new ReceiptDAO();
-        
+            ReceiptDAO receiptDAO = new ReceiptDAO();
 
-        //Auto create ID
-        String RECEIPT_ID = String.format("RC%03d", (receiptDAO.generateNextReceiptID()));
-        String receiptID = RECEIPT_ID;
+            //Auto create ID
+            String RECEIPT_ID = String.format("RC%03d", (receiptDAO.generateNextReceiptID()));
+            String receiptID = RECEIPT_ID;
 
-        //GET startDate and endDate
-        Date startDate =Date.valueOf(LocalDate.now());
-       
-        
-        Date endDate = null;
-        try {
-            endDate = Date.valueOf(request.getParameter("endDate"));
-        } catch (Exception e) {
+            //GET startDate and endDate
+          
+            Date startDate = null;
+            try {
+                startDate = Date.valueOf(request.getParameter("startDate"));
+            } catch (Exception e) {
+            }
 
+            Date endDate = null;
+            try {
+                endDate = Date.valueOf(request.getParameter("endDate"));
+            } catch (Exception e) {
+
+            }
+
+            //Method to caculate days booked
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(startDate); // .LocalDate();
+            int intStarDate = cal.get(Calendar.DAY_OF_MONTH);
+            cal = Calendar.getInstance();
+            cal.setTime(endDate);
+            int intEndDate = cal.get(Calendar.DAY_OF_MONTH);
+            int daysBooked = intEndDate - intStarDate;
+
+            receiptDTO.setReceiptID(receiptID);
+            receiptDTO.setCouponDTO(couponDTO);
+
+            receiptDTO.setServiceDTO(serviceDTO);
+
+            receiptDTO.setUserDTO(userDTO);
+            receiptDTO.setRoomDTO(roomDTO);
+
+            receiptDTO.setEmployeeDTO(roomDTO.getEmployeeDTO());
+
+            receiptDTO.setDetail(null);
+
+            receiptDTO.setCardNumber(Integer.parseInt(request.getParameter("cardNumber")));
+//receiptDTO.setCardNumber(0);
+            receiptDTO.setStartDate(startDate);
+            receiptDTO.setEndDate(endDate);
+
+            receiptDTO.setFinalPrice(finalPrice(daysBooked, roomDTO, couponDTO, serviceDTO));
+
+            receiptDAO.insert(receiptDTO);
+            userDTO.setVisitFrequency(userDTO.getVisitFrequency() + 1);
+            userDAO.update(userDTO);
+            roomDTO.setStatus(false);
+            roomDAO.update(roomDTO);
+            return receiptDTO;
         }
 
-        //Method to caculate days booked
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(startDate); // .LocalDate();
-        int intStarDate = cal.get(Calendar.DAY_OF_MONTH);
-        cal = Calendar.getInstance();
-        cal.setTime(endDate);
-        int intEndDate = cal.get(Calendar.DAY_OF_MONTH);
-        int daysBooked = intEndDate - intStarDate;
-
-        receiptDTO.setReceiptID(receiptID);
-        receiptDTO.setCouponDTO(couponDTO);
-
-        receiptDTO.setServiceDTO(serviceDTO);
-
-        receiptDTO.setUserDTO(userDTO);
-        receiptDTO.setRoomDTO(roomDTO);
-
-        receiptDTO.setEmployeeDTO(roomDTO.getEmployeeDTO());
-
-        receiptDTO.setDetail(request.getParameter("detail"));
-
-        receiptDTO.setCardNumber(Integer.parseInt(request.getParameter("cardNumber")));
-
-        receiptDTO.setStartDate(startDate);
-        receiptDTO.setEndDate(endDate);
-
-        receiptDTO.setFinalPrice(finalPrice(request, response, daysBooked, roomDTO, couponDTO, serviceDTO));
-
-        receiptDAO.insert(receiptDTO);
-        userDTO.setVisitFrequency(userDTO.getVisitFrequency() + 1);
-        userDAO.update(userDTO);
-        roomDTO.setStatus(false);
-        roomDAO.update(roomDTO);
-        return receiptDTO;
-        }
-        
         return receiptDTO;
 
     }
 
-    public double finalPrice(HttpServletRequest request, HttpServletResponse response, int daysBooked, RoomDTO roomDTO, CouponDTO couponDTO, ServiceDTO serviceDTO) {
+    public double finalPrice( int daysBooked, RoomDTO roomDTO, CouponDTO couponDTO, ServiceDTO serviceDTO) {
         double finalPrice = 0;
         double servicePrice = 1;
         double coupon = 1;
@@ -238,4 +274,7 @@ public class BookController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    
 }
+

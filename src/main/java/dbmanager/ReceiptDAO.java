@@ -300,26 +300,26 @@ public class ReceiptDAO implements DAOInterface<ReceiptDTO> {
         cal.setTime(date2);
         int intEndDate = cal.get(Calendar.DAY_OF_MONTH);
         int daysBooked = intEndDate - intStarDate;
-//        receiptDTO.setReceiptID(receiptID);
-//       receiptDTO.setCouponDTO(couponDTO);
-//receiptDTO.setCouponDTO(couponDTO);        
-//       receiptDTO.setServiceDTO(serviceDTO);
-//        receiptDTO.setServiceDTO(serviceDTO);
-//        receiptDTO.setUserDTO(userDTO);
-//        receiptDTO.setRoomDTO(roomDTO);
-//        
-//      receiptDTO.setEmployeeDTO(roomDTO.getEmployeeDTO());
-//         receiptDTO.setEmployeeDTO(employeeDTO);
-//
-//      receiptDTO.setDetail("");
-//        receiptDTO.setDetail("");
-//        receiptDTO.setCardNumber(23123);
-//        receiptDTO.setCardNumber(0);
-//        receiptDTO.setStartDate(date);
-//        receiptDTO.setEndDate(date);
-//      receiptDTO.setFinalPrice(50);
-//
-//        receiptDAO.insert(receiptDTO);
+        receiptDTO.setReceiptID(receiptID);
+       receiptDTO.setCouponDTO(couponDTO);
+receiptDTO.setCouponDTO(couponDTO);        
+       receiptDTO.setServiceDTO(serviceDTO);
+        receiptDTO.setServiceDTO(serviceDTO);
+        receiptDTO.setUserDTO(userDTO);
+        receiptDTO.setRoomDTO(roomDTO);
+        
+      receiptDTO.setEmployeeDTO(roomDTO.getEmployeeDTO());
+         receiptDTO.setEmployeeDTO(employeeDTO);
+
+      receiptDTO.setDetail("");
+        receiptDTO.setDetail("");
+        receiptDTO.setCardNumber(23123);
+        receiptDTO.setCardNumber(0);
+        receiptDTO.setStartDate(date);
+        receiptDTO.setEndDate(date);
+      receiptDTO.setFinalPrice(50);
+
+        receiptDAO.insert(receiptDTO);
 //
         double finalPrice = 0;
         double servicePrice = 1;
