@@ -5,6 +5,7 @@
  */
 package dbmanager;
 
+import Model.ImageDTO;
 import Model.RoomDTO;
 import Utils.DBUtils;
 import java.sql.Connection;
@@ -134,6 +135,7 @@ public class RoomDAO {
     //Tim User theo ID
     public RoomDTO selectById(String roomID) {
         RoomDTO roomDTO = null;
+        ImageDAO imgDAO = new ImageDAO();
         try {
 
             // Bước 1: tạo kết nối đến CSDL
@@ -163,6 +165,7 @@ public class RoomDAO {
                 roomDTO.setNumberOfBed(rs.getInt("numberOfBed"));
                 roomDTO.setBedType(rs.getString("bedType"));
                 roomDTO.setDescription(rs.getString("description"));
+                roomDTO.setListImg(imgDAO.listImageSelectById(rs.getString("roomID")));
                 return roomDTO;
             }
 
@@ -178,6 +181,7 @@ public class RoomDAO {
     //Method to check existed username
     public RoomDTO selectByRoomID(String roomID) {
         RoomDTO roomDTO = null;
+        ImageDAO imgDAO = new ImageDAO();
         try {
 
             // Bước 1: tạo kết nối đến CSDL
@@ -204,6 +208,7 @@ public class RoomDAO {
                 roomDTO.setNumberOfBed(rs.getInt("numberOfBed"));
                 roomDTO.setBedType(rs.getString("bedType"));
                 roomDTO.setDescription(rs.getString("description"));
+                roomDTO.setListImg(imgDAO.listImageSelectById(rs.getString("roomID")));
                 return roomDTO;
             }
 
@@ -219,6 +224,8 @@ public class RoomDAO {
     public List<RoomDTO> list() {
         String sql = "select * from [dbo].[Room]";
         List<RoomDTO> listRoom = new ArrayList<>();
+        ImageDAO imgDAO = new ImageDAO();
+        
         try {
             Connection conn = DBUtils.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -236,6 +243,7 @@ public class RoomDAO {
                 roomDTO.setNumberOfBed(rs.getInt("numberOfBed"));
                 roomDTO.setBedType(rs.getString("bedType"));
                 roomDTO.setDescription(rs.getString("description"));
+                roomDTO.setListImg(imgDAO.listImageSelectById(rs.getString("roomID")));
                 listRoom.add(roomDTO);
             }
             return listRoom;
@@ -250,6 +258,12 @@ public class RoomDAO {
         List<RoomDTO> listRoom = list();
         return listRoom.size();
     }
+    
+    
+    public List<ImageDTO> getListImg(String ID){
+        ImageDAO imgDAO = new ImageDAO();
+        return imgDAO.listImageSelectById(ID);
+    }
 
     public static void main(String[] args) {
 
@@ -262,7 +276,10 @@ public class RoomDAO {
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
         RoomDAO roomDAO = new RoomDAO();
-
+        List<ImageDTO> list = roomDAO.getListImg("RO001");
+        for(ImageDTO a : list){
+            System.out.println(a.getImgSrc());
+        }
 //        B = userDAO.login("Olaskadqưe", "Pugre11111");
 //        System.out.println(userDAO.listSize());
 //        B = userDAO.selectById("US001");
@@ -280,8 +297,9 @@ public class RoomDAO {
         List<RoomDTO> listRoom = new ArrayList<>();
         listRoom = roomDAO.list();
         for (RoomDTO a : listRoom) {
-
-            System.out.println(a.getDailyPrice());
+            for(ImageDTO b : a.getListImg()){
+                System.out.println(b.getImgSrc());
+            }
         }
     }
 }

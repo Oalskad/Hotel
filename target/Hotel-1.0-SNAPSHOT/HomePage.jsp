@@ -5,10 +5,12 @@
 --%>
 
 
+<%@page import="Model.ImageDTO"%>
 <%@page import="Model.RoomDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="Model.UserDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 %>
@@ -23,37 +25,45 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <% UserDTO userDTO = (UserDTO) session.getAttribute("userDTO");
-            if (userDTO == null) {
-        %>
-        <a class="btn btn-outline-danger" href="<%=url%>">Login</a>
-        <% } else {%>   
-
-        <%= url%>
+        
+        <c:if test="${sessionScope.userDTO != null}">
+             
         <form action="/Hotel/Access/logout" method="POST">
             <input class="btn btn-outline-danger"  type="submit" value="Logout"></input>
         </form>
-        <% }%>
+        </c:if>
+        <c:if test="${sessionScope.userDTO == null}">
+            
+        <a class="btn btn-outline-danger" href="<%=url%>">Login</a>
+        </c:if>
         
         
-        <% List<RoomDTO> listRoom = (List<RoomDTO>)request.getAttribute("listRoom"); %>
-        
-        <% for(RoomDTO a : listRoom){ %>
+        <c:out value="${sessionScope.userDTO.userID}" ></c:out>
+
+
+
+
+        <% List<RoomDTO> listRoom = (List<RoomDTO>) request.getAttribute("listRoom"); %>
+
+        <% for (RoomDTO a : listRoom) { %>
+        <% for (ImageDTO b : a.getListImg()){ %>
+        <image src="<%= b.getImgSrc() %>" />
+        <% } %>
         <form action="/Hotel/Book/detail" method="POST">
-        <%
-            out.println(a.toString());    
-            String room =a.getRoomID();
+            <%
+                out.println(a.toString());
+                String room = a.getRoomID();
             %>
             <input type="hidden" name="roomID" value="<%=room%>">  
             <input type='submit' value='go'>
             <br></br>
         </form>
-             
-        <% } %>
-        
-        
-        
-        
+
+        <% }%>
+
+
+
+
 
 
 

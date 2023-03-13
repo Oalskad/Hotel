@@ -18,7 +18,10 @@ import dbmanager.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,13 +71,24 @@ public class BookController extends HttpServlet {
                     out.print("succcesss");
                     out.print(roomDTO.toString());
                 }
+
+                ServiceDAO serviceDAO = new ServiceDAO();
+                List<ServiceDTO> listService = new ArrayList<ServiceDTO>();
+                listService = serviceDAO.list();
+
+                Date date = Date.valueOf(LocalDate.now());
+                
+                request.setAttribute("date", date);
+                request.setAttribute("listService", listService);
                 request.setAttribute("roomDTO", roomDTO);
-                out.print(path);
+
                 RequestDispatcher rd = request.getRequestDispatcher("/BookPage.jsp");
                 rd.forward(request, response);
             } else if (path.equals("/book")) {
-                createReceipt(request, response);
-
+                ReceiptDTO receiptDTO = createReceipt(request, response);
+                out.print(receiptDTO.toString());
+            }
+        }
     }
 
     public ReceiptDTO createReceipt(HttpServletRequest request, HttpServletResponse response) {
@@ -89,11 +103,12 @@ public class BookController extends HttpServlet {
         RoomDAO roomDAO = new RoomDAO();
         RoomDTO roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
 
+//        String[] service = request.getParameterValues("service");
         ServiceDAO serviceDAO = new ServiceDAO();
         ServiceDTO serviceDTO = new ServiceDTO();
-        if (serviceDAO.selectById(request.getParameter("serviceName")) != null) {
+        if (serviceDAO.selectById(request.getParameter("service")) != null) {
 
-           serviceDTO = serviceDAO.selectById(request.getParameter("couponName"));
+            serviceDTO = serviceDAO.selectById(request.getParameter("service"));
         }
         //CouponDTO 
         CouponDAO couponDAO = new CouponDAO();
@@ -112,12 +127,9 @@ public class BookController extends HttpServlet {
         String receiptID = RECEIPT_ID;
 
         //GET startDate and endDate
-        Date startDate = null;
-        try {
-            startDate = Date.valueOf(request.getParameter("startDate"));
-        } catch (Exception e) {
-
-        }
+        Date startDate =Date.valueOf(LocalDate.now());
+       
+        
         Date endDate = null;
         try {
             endDate = Date.valueOf(request.getParameter("endDate"));
@@ -127,7 +139,7 @@ public class BookController extends HttpServlet {
 
         //Method to caculate days booked
         Calendar cal = Calendar.getInstance();
-        cal.setTime(startDate);
+        cal.setTime(startDate); // .LocalDate();
         int intStarDate = cal.get(Calendar.DAY_OF_MONTH);
         cal = Calendar.getInstance();
         cal.setTime(endDate);
@@ -150,16 +162,14 @@ public class BookController extends HttpServlet {
 
         receiptDTO.setStartDate(startDate);
         receiptDTO.setEndDate(endDate);
-        
 
-    
         receiptDTO.setFinalPrice(finalPrice(request, response, daysBooked, roomDTO, couponDTO, serviceDTO));
 
         receiptDAO.insert(receiptDTO);
         userDTO.setVisitFrequency(userDTO.getVisitFrequency() + 1);
         userDAO.update(userDTO);
 
-        return null;
+        return receiptDTO;
 
     }
 

@@ -8,8 +8,10 @@ package Controller;
 import Model.RoomDTO;
 import Model.UserDTO;
 import dbmanager.RoomDAO;
+import dbmanager.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -49,9 +51,7 @@ public class HomePageController extends HttpServlet {
             RoomDAO roomDAO = new RoomDAO();
             List<RoomDTO> listRoom = new ArrayList<RoomDTO>() ;
             listRoom = roomDAO.list();
-            
             request.setAttribute("listRoom", listRoom);
-                
             RequestDispatcher rs = request.getRequestDispatcher("HomePage.jsp");
             rs.forward(request, response);
             

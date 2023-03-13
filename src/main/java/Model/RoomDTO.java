@@ -5,6 +5,8 @@
  */
 package Model;
 
+import java.util.List;
+
 /**
  *
  * @author iba
@@ -24,21 +26,25 @@ public class RoomDTO {
     private EmployeeDTO employeeDTO;
     private double dailyPrice;
     private String description;
+    
+    private List<ImageDTO> listImg ;
 
   public RoomDTO() {
     }
 
-    public RoomDTO(String type, int numberOfBed, String bedType, String description, String roomID, boolean status, EmployeeDTO employeeDTO, double dailyPrice) {
+    public RoomDTO(String roomID, String type, int numberOfBed, String bedType, boolean status, EmployeeDTO employeeDTO, double dailyPrice, String description, List<ImageDTO> listImg) {
+        this.roomID = roomID;
         this.type = type;
         this.numberOfBed = numberOfBed;
         this.bedType = bedType;
-        this.description = description;
-        this.roomID = roomID;
         this.status = status;
         this.employeeDTO = employeeDTO;
         this.dailyPrice = dailyPrice;
+        this.description = description;
+        this.listImg = listImg;
     }
 
+    
     public String getType() {
         return type;
     }
@@ -49,6 +55,14 @@ public class RoomDTO {
 
     public int getNumberOfBed() {
         return numberOfBed;
+    }
+
+    public List<ImageDTO> getListImg() {
+        return listImg;
+    }
+
+    public void setListImg(List<ImageDTO> listImg) {
+        this.listImg = listImg;
     }
 
     public void setNumberOfBed(int numberOfBed) {
@@ -105,8 +119,10 @@ public class RoomDTO {
 
     @Override
     public String toString() {
-        return "RoomDTO{" + "roomID=" + roomID + ", type=" + type + ", numberOfBed=" + numberOfBed + ", bedType=" + bedType + ", status=" + status + ", employeeDTO=" + employeeDTO + ", dailyPrice=" + dailyPrice + ", description=" + description + '}';
+        return "RoomDTO{" + "roomID=" + roomID + ", type=" + type + ", numberOfBed=" + numberOfBed + ", bedType=" + bedType + ", status=" + status + ", employeeDTO=" + employeeDTO + ", dailyPrice=" + dailyPrice + ", description=" + description + ", listImg=" + listImg + '}';
     }
+
+   
 
     
    

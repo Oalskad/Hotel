@@ -4,6 +4,8 @@
     Author     : Oalskad
 --%>
 
+<%@page import="Model.ServiceDTO"%>
+<%@page import="java.util.List"%>
 <%@page import="Model.UserDTO"%>
 <%@page import="Model.RoomDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -40,6 +42,9 @@
             out.print(roomDTO.toString());
         %>
 
+
+
+
         <section class="vh-100 gradient-custom">
 
             <div class="container py-5 h-100">
@@ -64,19 +69,18 @@
                                         <div class="col-md-6 mb-4">
 
                                             <div class="form-outline">
-                                                <input type="text" id="couponName" class="form-control form-control-lg" name="couponName" required="required" onkeyup='check();'/>
+                                                <input type="text" id="couponName" class="form-control form-control-lg" name="couponName" />
                                                 <label class="form-label" for="couponName">couponName</label>
                                             </div>
                                         </div>
                                     </div>
-
+                                    
 
                                     <div class="row">
                                         <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                             <div class="form-outline datepicker w-100">
-                                                <input type="Date" class="form-control form-control-lg" id="startDate" name="startDate" required="required" />
-                                                <label for="startDate" class="form-label">startDate</label>
+                                                <label for="startDate" class="form-label">${requestScope.date}</label>
 
                                             </div>
 
@@ -94,6 +98,26 @@
                                         </div>
 
                                     </div>
+
+
+                                    <div>
+                                        <h6 class="mb-2 pb-1">Service: </h6>
+                                        <% List<ServiceDTO> listService = (List<ServiceDTO>) request.getAttribute("listService"); %>
+
+                                        <% for (ServiceDTO serviceDTO : listService) { %>
+                                        <% String name = serviceDTO.getServName(); 
+                                           String value = serviceDTO.getServID();
+                                        %>
+                                        
+                                         <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="service" 
+                                                       value="<%= value %>" checked />
+                                                <label class="form-check-label" for="service"><%= name %></label>
+                                            </div>
+
+                                        <% }%>
+                                    </div>
+
 
                                     <div class="row">
                                         <div class="col-md-6 mb-4 pb-2">

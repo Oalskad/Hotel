@@ -7,9 +7,11 @@ dbmanager\CouponDAO.class
 dbmanager\ServiceDAO.class
 dbmanager\ReceiptDAO.class
 Model\ServiceDTO.class
+Model\ImageDTO.class
 Utils\DBUtils.class
 dbmanager\EmployeeDAO.class
 Controller\BookController.class
+dbmanager\ImageDAO.class
 dbmanager\RoomDAO.class
 dbmanager\UserDAO.class
 Model\EmployeeDTO.class

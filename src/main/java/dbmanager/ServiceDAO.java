@@ -256,7 +256,7 @@ public class ServiceDAO {
                     serviceDTO.setServName(rs.getString("servName"));
                     serviceDTO.setPrice(rs.getDouble("price"));
                     serviceDTO.setDesc(rs.getString("desc"));
-                    serviceDTO.setEmployeeDTO(employeeDAO.selectById(rs.getString("employeeID")));
+                    serviceDTO.setEmployeeDTO(employeeDAO.selectById(rs.getString("empID")));
                     listService.add(serviceDTO);
                 
                 
@@ -303,12 +303,12 @@ public class ServiceDAO {
 
        
 //        userDAO.insert(B);
-//         List<ServiceDTO> listUser = new ArrayList<>();
-//         listUser = userDAO.list();
-//         for(ServiceDTO a : listUser)
-//         {
-//             System.out.println("a");
-//             System.out.println(a.getUserID());
-//        }
+         List<ServiceDTO> listUser = new ArrayList<ServiceDTO>();
+         listUser = serviceDAO.list();
+         for(ServiceDTO a : listUser)
+         {
+             
+             System.out.println(a.toString());
+        }
     }
 }

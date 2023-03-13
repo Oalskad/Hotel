@@ -1,5 +1,6 @@
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\dbmanager\RoomDAO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\dbmanager\DAOInterface.java
+C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Model\ImageDTO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\dbmanager\ServiceDAO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Model\ReviewDTO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Model\CouponDTO.java
@@ -12,6 +13,7 @@ C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Model\EmployeeDTO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Controller\LoginController.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\dbmanager\ReviewDAO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\dbmanager\EmployeeDAO.java
+C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\dbmanager\ImageDAO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Controller\HomePageController.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Model\RoomDTO.java
 C:\Oalskad\File\NetBeansProjects\Hotel2\src\main\java\Model\AdminDTO.java
