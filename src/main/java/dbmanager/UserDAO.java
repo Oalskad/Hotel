@@ -312,12 +312,15 @@ public class UserDAO implements DAOInterface<UserDTO> {
     }
 
     public static void main(String[] args) {
-         UserDAO userDAO = new UserDAO();
- String AUTO_USER_ID = String.format("US%03d", (userDAO.generateNextUserID()));
-
-        //USER CONSTRUCTOR
-        String userID = AUTO_USER_ID;
-        System.out.println(userID);
+//         UserDAO userDAO = new UserDAO();
+// String AUTO_USER_ID = String.format("US%03d", (userDAO.generateNextUserID()));
+//
+//        //USER CONSTRUCTOR
+//        String userID = AUTO_USER_ID;
+//        System.out.println(userID);
+        
+        UserDTO userDTO = new UserDTO();
+        System.out.println(userDTO.toString());
 //        int a =0;
 //        for(a=0 ; a<10;a++){
 //        String formatted = String.format("US%03d", a);

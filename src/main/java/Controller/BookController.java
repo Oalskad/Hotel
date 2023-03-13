@@ -86,13 +86,21 @@ public class BookController extends HttpServlet {
                 rd.forward(request, response);
             } else if (path.equals("/book")) {
                 ReceiptDTO receiptDTO = createReceipt(request, response);
-                out.print(receiptDTO.toString());
+                if(receiptDTO !=null){
+                out.print(receiptDTO.toString());}
+                else{
+                    out.print("12313123");
+                }
             }
         }
     }
 
     public ReceiptDTO createReceipt(HttpServletRequest request, HttpServletResponse response) {
-
+        ReceiptDTO receiptDTO = null;
+        RoomDAO roomDAO = new RoomDAO();
+        RoomDTO roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
+        if(roomDTO.isStatus()){
+        receiptDTO = new ReceiptDTO();
         HttpSession session = request.getSession();
         UserDAO userDAO = new UserDAO();
         UserDTO userDTO = new UserDTO();
@@ -100,8 +108,7 @@ public class BookController extends HttpServlet {
             userDTO = (UserDTO) session.getAttribute("userDTO");
         }
 
-        RoomDAO roomDAO = new RoomDAO();
-        RoomDTO roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
+        
 
 //        String[] service = request.getParameterValues("service");
         ServiceDAO serviceDAO = new ServiceDAO();
@@ -120,7 +127,7 @@ public class BookController extends HttpServlet {
 
 //ReceiptDTO(CouponDTO couponDTO, UserDTO userDTO, RoomDTO roomDTO, EmployeeDTO employeeDTO, ServiceDTO serviceDTO, String receiptID, String detail, int cardNumber, Date startDate, Date endDate, double finalPrice)
         ReceiptDAO receiptDAO = new ReceiptDAO();
-        ReceiptDTO receiptDTO = new ReceiptDTO();
+        
 
         //Auto create ID
         String RECEIPT_ID = String.format("RC%03d", (receiptDAO.generateNextReceiptID()));
@@ -168,7 +175,11 @@ public class BookController extends HttpServlet {
         receiptDAO.insert(receiptDTO);
         userDTO.setVisitFrequency(userDTO.getVisitFrequency() + 1);
         userDAO.update(userDTO);
-
+        roomDTO.setStatus(false);
+        roomDAO.update(roomDTO);
+        return receiptDTO;
+        }
+        
         return receiptDTO;
 
     }

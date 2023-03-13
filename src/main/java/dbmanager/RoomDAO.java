@@ -90,10 +90,10 @@ public class RoomDAO {
             // Bước 2: tạo ra đối tượng statement
             String sql = "UPDATE [dbo].[Room] "
                     + " SET "
-                    + ", employeeID = ?"
+                    + " employeeID = ?"
                     + ", dailyPrice = ?"
                     + ", status = ?"
-                    + "  type = ?"
+                    + ",  type = ?"
                     //                    + ", name = ?"
                     + ", numberOfBed = ?"
                     + ", bedType = ?"
@@ -107,8 +107,9 @@ public class RoomDAO {
             st.setString(4, t.getType());
 //            st.setString(5, t.getName());
             st.setInt(5, t.getNumberOfBed());
-            st.setString(6, t.getDescription());
-            st.setString(7, t.getRoomID());
+            st.setString(6, t.getBedType());
+            st.setString(7, t.getDescription());
+            st.setString(8, t.getRoomID());
             // Bước 3: thực thi câu lệnh SQL
 
             System.out.println(sql);
@@ -276,10 +277,16 @@ public class RoomDAO {
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
         RoomDAO roomDAO = new RoomDAO();
-        List<ImageDTO> list = roomDAO.getListImg("RO001");
-        for(ImageDTO a : list){
-            System.out.println(a.getImgSrc());
-        }
+        RoomDTO roomDTO = new RoomDTO();
+        roomDTO = roomDAO.selectById("RO001");
+        System.out.println(roomDTO.toString());
+        roomDTO.setStatus(false);
+         System.out.println(roomDTO.toString());
+         roomDAO.update(roomDTO);
+//        List<ImageDTO> list = roomDAO.getListImg("RO001");
+//        for(ImageDTO a : list){
+//            System.out.println(a.getImgSrc());
+//        }
 //        B = userDAO.login("Olaskadqưe", "Pugre11111");
 //        System.out.println(userDAO.listSize());
 //        B = userDAO.selectById("US001");
@@ -294,12 +301,12 @@ public class RoomDAO {
 //            System.out.println("MMVB");
 //        }
 //        userDAO.insert(B);
-        List<RoomDTO> listRoom = new ArrayList<>();
-        listRoom = roomDAO.list();
-        for (RoomDTO a : listRoom) {
-            for(ImageDTO b : a.getListImg()){
-                System.out.println(b.getImgSrc());
-            }
-        }
+//        List<RoomDTO> listRoom = new ArrayList<>();
+//        listRoom = roomDAO.list();
+//        for (RoomDTO a : listRoom) {
+//            for(ImageDTO b : a.getListImg()){
+//                System.out.println(b.getImgSrc());
+//            }
+//        }
     }
 }

@@ -88,7 +88,7 @@
                                         <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                             <div class="form-outline datepicker w-100">
-                                                <input type="Date" class="form-control form-control-lg" id="endDate" name="endDate" required="required" />
+                                                <input type="Date" class="form-control form-control-lg" id="endDate" name="endDate" required="required" min="${requestScope.date}" />
                                                 <label for="endDate" class="form-label">endDate</label>
                                                 <div style="color: red; font-weight: BOLD">
 
@@ -110,7 +110,7 @@
                                         %>
                                         
                                          <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="service" 
+                                             <input class="form-check-input" type="radio" name="service" 
                                                        value="<%= value %>" checked />
                                                 <label class="form-check-label" for="service"><%= name %></label>
                                             </div>
