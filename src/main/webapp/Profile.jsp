@@ -9,7 +9,6 @@
     <meta name="description" content="">
     <title>Home</title>
     <link rel="stylesheet" href="<%=url%>/css/profile1.css" media="screen">
-<link rel="stylesheet" href="<%=url%>/css/profile2.css" media="screen">
     <script class="u-script" type="text/javascript" src="<%=url%>/js/profile1.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="<%=url%>/js/profile2.js" defer=""></script>
     <meta name="generator" content="">
@@ -31,9 +30,13 @@
               <div class="u-container-style u-gradient u-layout-cell u-size-30 u-layout-cell-1">
                 <div class="u-border-2 u-border-grey-75 u-border-no-bottom u-container-layout u-container-layout-1">
                   <img src="<%=url%>/images/rikka-takanashi.gif" alt="" class="u-image u-image-circle u-image-1" data-image-width="1280" data-image-height="1280">
-                  <p class="u-text u-text-1">Change your avatar<br>
+                  <p class="u-text u-text-1">
+                    <a class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-link u-button-style u-none u-text-body-color u-text-hover-palette-1-base u-btn-1" href="#">Change your avatar<br>
+                    </a>
                   </p>
-                  <p class="u-text u-text-2">Edit profile<br>
+                  <p class="u-text u-text-2">
+                    <a class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-link u-button-style u-none u-text-body-color u-text-hover-palette-1-base u-btn-2" href="#">Edit profile<br>
+                    </a>
                   </p>
                 </div>
               </div>
@@ -67,16 +70,6 @@
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-4c20"><div class="u-clearfix u-sheet u-sheet-1">
         <p class="u-small-text u-text u-text-variant u-text-1">Designed by PRJ301-Deadline Runner</p>
       </div></footer>
-    <section class="u-backlink u-clearfix u-grey-80">
-      <a class="u-link" href="https://nicepage.com/html-templates" target="_blank">
-        <span>Free HTML Templates</span>
-      </a>
-      <p class="u-text">
-        <span>created with</span>
-      </p>
-      <a class="u-link" href="" target="_blank">
-        <span>Website Design Software</span>
-      </a>. 
-    </section>
+S
   
 </body></html>

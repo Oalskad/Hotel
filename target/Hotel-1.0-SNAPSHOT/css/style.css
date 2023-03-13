@@ -93,7 +93,7 @@ h6 {
 #header {
     background: #222222;
     position: relative;
-    height: 60px;
+    height: 70px;
 }
 
 #header .logo {
@@ -184,6 +184,7 @@ h6 {
     position: absolute;
     padding-right: 25px;
     padding-left: 10px;
+   
     right: 0;
     color: #FFD700;
     line-height: 60px;
