@@ -279,10 +279,12 @@ public class RoomDAO {
         RoomDAO roomDAO = new RoomDAO();
         RoomDTO roomDTO = new RoomDTO();
         roomDTO = roomDAO.selectById("RO001");
-        System.out.println(roomDTO.toString());
-        roomDTO.setStatus(false);
-         System.out.println(roomDTO.toString());
-         roomDAO.update(roomDTO);
+        List<ImageDTO> a = roomDAO.getListImg("RO001");
+        System.out.println(a.get(0).getImgSrc());
+//        System.out.println(roomDTO.toString());
+//        roomDTO.setStatus(false);
+//         System.out.println(roomDTO.toString());
+//         roomDAO.update(roomDTO);
 //        List<ImageDTO> list = roomDAO.getListImg("RO001");
 //        for(ImageDTO a : list){
 //            System.out.println(a.getImgSrc());

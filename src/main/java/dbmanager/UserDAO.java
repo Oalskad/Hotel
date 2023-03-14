@@ -302,13 +302,15 @@ public class UserDAO implements DAOInterface<UserDTO> {
     public int generateNextUserID() {
         List<UserDTO> list = list();
         try {
+            if(list.size()>0){
             UserDTO e = list.get(list.size() - 1);
             int numberOnly = Integer.parseInt(e.getUserID().replaceAll("[^0-9]", ""));
             return numberOnly + 1;
+            }
         } catch (Exception e) {
 
         }
-        return -1;
+        return 1;
     }
 
     public static void main(String[] args) {
