@@ -66,20 +66,8 @@
 
     <!-- Header Section Start -->
     <header id="header">
-        <c:if test="${sessionScope.userDTO != null}">
-            <form action="/Hotel/Access/logout" method="POST">
-                <div class="phone">
 
-                    <input class="btn btn-outline-danger"  type="submit" value="Logout"></input>
-                </div>
-            </form>
-        </c:if>
 
-        <c:if test="${sessionScope.userDTO == null}">
-            <div class="phone">
-                <a class="btn btn-outline-danger" href="<%=url%>">Login</a>
-            </div>
-        </c:if>
 
 
 
@@ -94,9 +82,26 @@
                 <li><a href="contact.html">Contact Us</a></li>
                     <c:if test="${sessionScope.userDTO != null}">
                     <li>
-                        <a href="about.html">
+                        <a href="./Profile.jsp">
                             ${sessionScope.userDTO.userName} 
                         </a></li>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.userDTO != null}">
+                    <li>
+                        <form action="/Hotel/Access/logout" method="POST">
+
+                            <input class="btn btn-outline-danger"  type="submit" value="Logout"></input>
+
+                        </form>
+                    </li>
+                </c:if>
+
+                <c:if test="${sessionScope.userDTO == null}">
+                    <li>
+                        <div class="">
+                            <a class="btn btn-outline-danger" href="<%=url%>">Login</a>
+                        </div>
                     </li>
                 </c:if>
             </ul>
@@ -173,11 +178,21 @@
                         </div>
                         <div class="col-md-3">
                             <div class="room-rate">
+                                <% String disable = "";
+                                    String value = "Book";
+                                    String backgroundColor = "";
+                                    if (!a.isStatus()) {
+                                        disable = "disabled";
+                                        value = "Booked";
+                                        backgroundColor = "red";
+                                    }
+                                %>
                                 <h3>From</h3>
                                 <h1>$<%= a.getDailyPrice()%></h1>
                                 <input type="hidden" name="roomID" value="<%= a.getRoomID()%>">  
 
-                                <input class="btn btn-outline-danger" type='submit' value='go'>
+                                <input class="btn btn-outline-danger" type='submit' value='<%= value%>' <%= disable + ""%>>
+
                             </div>
                         </div>
                     </div>

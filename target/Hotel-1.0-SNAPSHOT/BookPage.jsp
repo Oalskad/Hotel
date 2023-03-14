@@ -37,40 +37,49 @@
         <link href="<%= url%>/css/style.css" rel="stylesheet">
     </head>
     <% RoomDTO roomDTO = (RoomDTO) request.getAttribute("roomDTO");
-        out.print(roomDTO.toString());
+
     %>
 
     <body>
         <!-- Header Section Start -->
         <header id="header">
-            <c:if test="${sessionScope.userDTO != null}">
-                <form action="/Hotel/Access/logout" method="POST">
-                    <div class="phone">
 
-                        <input class="btn btn-outline-danger"  type="submit" value="Logout"></input>
-                    </div>
-                    <div class="phone">
-                        <p style="color: red">Hello ${sessionScope.userDTO.userName} </p>
 
-                    </div></form>
-                </c:if>
-                <c:if test="${sessionScope.userDTO == null}">
-                <div class="phone">
-                    <a class="btn btn-outline-danger" href="<%=url%>">Login</a>
-                </div>
-            </c:if>
 
 
             <div class="mobile-menu-btn"><i class="fa fa-bars"></i></div>
             <nav class="main-menu top-menu">
                 <ul>
-                    <li class="active"><a href="index.html">Home</a></li>
+                    <li ><a href="<%= url%>/HomePage">Home</a></li>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="room.html">Rooms</a></li>
                     <li><a href="amenities.html">Amenities</a></li>
-                    <li><a href="booking.html">Booking</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li class="active"><a href="booking.html">Booking</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
+                        <c:if test="${sessionScope.userDTO != null}">
+                        <li>
+                            <a href="<%= url%>/Profile.jsp">
+                                ${sessionScope.userDTO.userName} 
+                            </a></li>
+                        </li>
+                    </c:if>
+                    <c:if test="${sessionScope.userDTO != null}">
+                        <li>
+                            <form action="/Hotel/Access/logout" method="POST">
+
+                                <input class="btn btn-outline-danger"  type="submit" value="Logout"></input>
+
+                            </form>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${sessionScope.userDTO == null}">
+                        <li>
+                            <div class="">
+                                <a class="btn btn-outline-danger" href="<%=url%>">Login</a>
+                            </div>
+                        </li>
+                    </c:if>
                 </ul>
             </nav>
         </header>
@@ -105,7 +114,7 @@
 
                                     <div class="control-group col-sm-6">
                                         <label>User Name</label>
-                                        <input type="text" class="form-control" id="lname" placeholder="${sessionScope.userDTO.userName}" required="required"  />
+                                        <input type="text" class="form-control" id="lname" placeholder="${sessionScope.userDTO.userName}" required="required" disabled="" />
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>

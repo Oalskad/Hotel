@@ -53,8 +53,10 @@ public class LoginController extends HttpServlet {
                 createUser(request, response);
             } else if (path.equalsIgnoreCase("/logout")) {
                 logout(request, response);
+            } else if (path.equalsIgnoreCase("/edit")){
+                editProfile(request, response);
+                response.sendRedirect(request.getContextPath()+"/Profile.jsp");
             }
-
         }
     }
 
@@ -138,7 +140,42 @@ public class LoginController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    public void editProfile(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        UserDAO userDAO = new UserDAO();
+        UserDTO userDTO = new UserDTO();
+        
+        HttpSession session = request.getSession();            
+            if (session.getAttribute("userDTO") != null) {
+                userDTO = (UserDTO) session.getAttribute("userDTO");
+            }
+            
+            String errorMessage = "";
+        String errorMessageDate = "";
+        boolean error = true;
+        Date dateOfBirth = null;
+
+        
+        String userID = userDTO.getUserID();
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String fname = request.getParameter("fname");
+        String lname = request.getParameter("lname");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String email = request.getParameter("email");
+
+        userDTO.setUserID(userID);
+        userDTO.setUserName(userName);
+        userDTO.setPassword(password);
+        userDTO.setFname(fname);
+        userDTO.setLname(lname);
+        userDTO.setPhoneNumber(phoneNumber);
+        userDTO.setEmail(email);
+        userDAO.update(userDTO);
+    }
+    
+    
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

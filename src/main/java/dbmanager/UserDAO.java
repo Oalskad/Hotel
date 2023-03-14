@@ -123,7 +123,57 @@ public class UserDAO implements DAOInterface<UserDTO> {
         return false;
     }
 
-    @Override
+    public boolean updateFake(UserDTO t) {
+        int ketQua = 0;
+        try {
+            // Bước 1: tạo kết nối đến CSDL
+            Connection con = DBUtils.getConnection();
+
+            // Bước 2: tạo ra đối tượng statement
+            String sql = "UPDATE [dbo].[User] "
+                    + " SET "
+                    + "username = ?"
+                    + ", password = ?"
+                    + ", fname = ?"
+                    + ", lname = ?"
+                    + ", dayOfBirth = ?"
+                    + ", visitFrequency = ?"
+                    + ",email = ?"
+                    + ",gender = ?"
+                    + ",phoneNumber = ?"
+                    + " WHERE userID=?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getUserName());
+            st.setString(2, t.getPassword());
+            st.setString(3, t.getFname());
+            st.setString(4, t.getLname());
+            st.setDate(5, t.getDayOfBirth());
+            st.setInt(6, t.getVisitFrequency());
+            st.setString(7, t.getEmail());
+
+            st.setString(8, t.getGender());
+            st.setString(9, t.getPhoneNumber());
+            st.setString(10, t.getUserID());
+            // Bước 3: thực thi câu lệnh SQL
+
+            System.out.println(sql);
+            ketQua = st.executeUpdate();
+
+            // Bước 4:
+            System.out.println("Bạn đã thực thi: " + sql);
+            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
+
+            // Bước 5:
+            DBUtils.closeConnection(con);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     public boolean update(UserDTO t) {
         int ketQua = 0;
         try {
@@ -141,6 +191,7 @@ public class UserDAO implements DAOInterface<UserDTO> {
                     + ", visitFrequency = ?"
                     + ",email = ?"
                     + ",gender = ?"
+                    + ",phoneNumber = ?"
                     + " WHERE userID=?";
 
             PreparedStatement st = con.prepareStatement(sql);
@@ -152,7 +203,8 @@ public class UserDAO implements DAOInterface<UserDTO> {
             st.setInt(6, t.getVisitFrequency());
             st.setString(7, t.getEmail());
             st.setString(8, t.getGender());
-            st.setString(9, t.getUserID());
+            st.setString(9, t.getPhoneNumber());
+            st.setString(10, t.getUserID());
             // Bước 3: thực thi câu lệnh SQL
 
             System.out.println(sql);
@@ -302,10 +354,10 @@ public class UserDAO implements DAOInterface<UserDTO> {
     public int generateNextUserID() {
         List<UserDTO> list = list();
         try {
-            if(list.size()>0){
-            UserDTO e = list.get(list.size() - 1);
-            int numberOnly = Integer.parseInt(e.getUserID().replaceAll("[^0-9]", ""));
-            return numberOnly + 1;
+            if (list.size() > 0) {
+                UserDTO e = list.get(list.size() - 1);
+                int numberOnly = Integer.parseInt(e.getUserID().replaceAll("[^0-9]", ""));
+                return numberOnly + 1;
             }
         } catch (Exception e) {
 
@@ -320,8 +372,11 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //        //USER CONSTRUCTOR
 //        String userID = AUTO_USER_ID;
 //        System.out.println(userID);
-        
+        UserDAO userDAO = new UserDAO();
         UserDTO userDTO = new UserDTO();
+        userDTO = userDAO.selectById("US002");
+        userDTO.setPhoneNumber("123456789");
+        userDAO.update(userDTO);
         System.out.println(userDTO.toString());
 //        int a =0;
 //        for(a=0 ; a<10;a++){
@@ -332,7 +387,7 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
 //        UserDTO B = new UserDTO();
-       
+
 ////        B = userDAO.login("Olaskadqưe", "Pugre11111");
 ////        System.out.println(userDAO.listSize());
 //
@@ -357,7 +412,6 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //            System.out.println("MMVB");
 //        }
 //        userDAO.insert(B);
-        
 //        List<UserDTO> listUser = new ArrayList<>();
 //        listUser = userDAO.list();
 //        for (UserDTO a : listUser) {
