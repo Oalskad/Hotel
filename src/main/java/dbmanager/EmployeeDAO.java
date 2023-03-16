@@ -251,30 +251,30 @@ public class EmployeeDAO {
     public static void main(String[] args) {
 
 //        int a =0;
-//        for(a=0 ; a<10;a++){
-//        String formatted = String.format("US%03d", a);
-//        System.out.println(formatted);
-//        
-//         String str="2005-03-31";  
-//      Date date=Date.valueOf(str);
-//        System.out.println(date);
-        UserDTO B = new UserDTO();
-
-        UserDAO userDAO = new UserDAO();
-//        B = userDAO.login("Olaskadqưe", "Pugre11111");
-//        System.out.println(userDAO.listSize());
-//        B = userDAO.selectById("US001");
-//        B.setLname("LOOOONG");
-//        userDAO.update(B);
+////        for(a=0 ; a<10;a++){
+////        String formatted = String.format("US%03d", a);
+////        System.out.println(formatted);
+////        
+////         String str="2005-03-31";  
+////      Date date=Date.valueOf(str);
+////        System.out.println(date);
+//        UserDTO B = new UserDTO();
 //
-//        System.out.println(B.toString());
-
-        if (userDAO.selectByUserName("Oalskad")) {
-            System.out.println("MMB");
-
-        } else {
-            System.out.println("MMVB");
-        }
+//        UserDAO userDAO = new UserDAO();
+////        B = userDAO.login("Olaskadqưe", "Pugre11111");
+////        System.out.println(userDAO.listSize());
+////        B = userDAO.selectById("US001");
+////        B.setLname("LOOOONG");
+////        userDAO.update(B);
+////
+////        System.out.println(B.toString());
+//
+//        if (userDAO.selectByUserName("Oalskad")) {
+//            System.out.println("MMB");
+//
+//        } else {
+//            System.out.println("MMVB");
+//        }
 //        userDAO.insert(B);
 //         List<UserDTO> listUser = new ArrayList<>();
 //         listUser = userDAO.list();

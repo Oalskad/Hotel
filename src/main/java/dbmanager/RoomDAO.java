@@ -276,11 +276,11 @@ public class RoomDAO {
 //         String str="2005-03-31";  
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
-        RoomDAO roomDAO = new RoomDAO();
-        RoomDTO roomDTO = new RoomDTO();
-        roomDTO = roomDAO.selectById("RO001");
-        List<ImageDTO> a = roomDAO.getListImg("RO001");
-        System.out.println(a.get(0).getImgSrc());
+//        RoomDAO roomDAO = new RoomDAO();
+//        RoomDTO roomDTO = new RoomDTO();
+//        roomDTO = roomDAO.selectById("RO001");
+//        List<ImageDTO> a = roomDAO.getListImg("RO001");
+//        System.out.println(a.get(0).getImgSrc());
 //        System.out.println(roomDTO.toString());
 //        roomDTO.setStatus(false);
 //         System.out.println(roomDTO.toString());

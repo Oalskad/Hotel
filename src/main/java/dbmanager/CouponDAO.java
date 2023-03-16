@@ -222,12 +222,12 @@ public class CouponDAO implements DAOInterface<CouponDTO> {
     }
 
     public static void main(String[] args) {
-        CouponDAO couponDAO = new CouponDAO();
-        CouponDTO couponDTO = new CouponDTO();
-        
-        
-        couponDTO = couponDAO.selectByName("WELCOME");
-        System.out.println(couponDTO.toString());
+//        CouponDAO couponDAO = new CouponDAO();
+//        CouponDTO couponDTO = new CouponDTO();
+//        
+//        
+//        couponDTO = couponDAO.selectByName("WELCOME");
+//        System.out.println(couponDTO.toString());
 //        couponDTO.setCouponID("CP008");
 //        couponDAO.insert(couponDTO);
 //        List<CouponDTO> listCoupon = couponDAO.list();

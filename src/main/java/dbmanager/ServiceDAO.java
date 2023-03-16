@@ -6,6 +6,7 @@
 package dbmanager;
 
 
+import Model.ReceiptDTO;
 import Model.ServiceDTO;
 import Utils.DBUtils;
 import java.sql.Connection;
@@ -284,31 +285,34 @@ public class ServiceDAO {
 //         String str="2005-03-31";  
 //      Date date=Date.valueOf(str);
 //        System.out.println(date);
+ ReceiptDAO receiptDAO = new ReceiptDAO();
+        ReceiptDTO receiptDTO = receiptDAO.selectById("RC001");
             ServiceDAO serviceDAO = new ServiceDAO();
-        ServiceDTO serviceDTO = new ServiceDTO();
+        ServiceDTO serviceDTO = null;
         
-        serviceDTO = serviceDAO.selectById("SV004");
-               
-                if (serviceDTO != null) {
-
-            System.out.println(serviceDTO.toString());    
-        }
-//        B = userDAO.login("Olaskadqưe", "Pugre11111");
-//        System.out.println(userDAO.listSize());
-//        B = userDAO.selectById("US001");
-//        B.setLname("LOOOONG");
-//        userDAO.update(B);
+   System.out.println(receiptDTO.getCouponDTO());
+        System.out.println(receiptDTO.getCouponDTO().getCouponID()==null);
+//               
+//                if (serviceDTO != null) {
 //
-//        System.out.println(B.toString());
-
-       
-//        userDAO.insert(B);
-         List<ServiceDTO> listUser = new ArrayList<ServiceDTO>();
-         listUser = serviceDAO.list();
-         for(ServiceDTO a : listUser)
-         {
-             
-             System.out.println(a.toString());
-        }
+//            System.out.println(serviceDTO.toString());    
+//        }
+////        B = userDAO.login("Olaskadqưe", "Pugre11111");
+////        System.out.println(userDAO.listSize());
+////        B = userDAO.selectById("US001");
+////        B.setLname("LOOOONG");
+////        userDAO.update(B);
+////
+////        System.out.println(B.toString());
+//
+//       
+////        userDAO.insert(B);
+//         List<ServiceDTO> listUser = new ArrayList<ServiceDTO>();
+//         listUser = serviceDAO.list();
+//         for(ServiceDTO a : listUser)
+//         {
+//             
+//             System.out.println(a.toString());
+//        }
     }
 }
