@@ -226,7 +226,7 @@ public class RoomDAO {
         String sql = "select * from [dbo].[Room]";
         List<RoomDTO> listRoom = new ArrayList<>();
         ImageDAO imgDAO = new ImageDAO();
-        
+
         try {
             Connection conn = DBUtils.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -255,13 +255,51 @@ public class RoomDAO {
 
     }
 
+    public List<RoomDTO> listSearch(int totalPeople, String roomType) {
+        String sql = "select * from [dbo].[Room] where [numberOfBed] >= ? and [type] like ?";
+        List<RoomDTO> listRoom = new ArrayList<>();
+        ImageDAO imgDAO = new ImageDAO();
+
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, totalPeople);
+            ps.setString(2, roomType);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+//                userID, username, password, fname, lname, dayOfBirth, visitFrequency, phoneNumber, email, gender
+                RoomDTO roomDTO = new RoomDTO();
+                EmployeeDAO employeeDAO = new EmployeeDAO();
+
+                roomDTO.setRoomID(rs.getString("roomID"));
+                roomDTO.setStatus(rs.getBoolean("status"));
+                roomDTO.setEmployeeDTO(employeeDAO.selectById(rs.getString("employeeID")));
+                roomDTO.setType(rs.getString("type"));
+                roomDTO.setDailyPrice(rs.getDouble("dailyPrice"));
+                roomDTO.setNumberOfBed(rs.getInt("numberOfBed"));
+                roomDTO.setBedType(rs.getString("bedType"));
+                roomDTO.setDescription(rs.getString("description"));
+                roomDTO.setListImg(imgDAO.listImageSelectById(rs.getString("roomID")));
+                listRoom.add(roomDTO);
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Query admin error!" + ex.getMessage());
+        }
+        if (!listRoom.isEmpty()) {
+            return listRoom;
+        } else {
+            return null;
+        }
+
+    }
+
     public int listSize() {
         List<RoomDTO> listRoom = list();
         return listRoom.size();
     }
-    
-    
-    public List<ImageDTO> getListImg(String ID){
+
+    public List<ImageDTO> getListImg(String ID) {
         ImageDAO imgDAO = new ImageDAO();
         return imgDAO.listImageSelectById(ID);
     }
@@ -278,9 +316,9 @@ public class RoomDAO {
 //        System.out.println(date);
         RoomDAO roomDAO = new RoomDAO();
         RoomDTO roomDTO = new RoomDTO();
-        roomDTO = roomDAO.selectById("RO001");
-        List<ImageDTO> a = roomDAO.getListImg("RO001");
-        System.out.println(a.get(0).getImgSrc());
+//        roomDTO = roomDAO.selectById("RO001");
+//        List<ImageDTO> a = roomDAO.getListImg("RO001");
+//        System.out.println(a.get(0).getImgSrc());
 //        System.out.println(roomDTO.toString());
 //        roomDTO.setStatus(false);
 //         System.out.println(roomDTO.toString());
@@ -303,12 +341,17 @@ public class RoomDAO {
 //            System.out.println("MMVB");
 //        }
 //        userDAO.insert(B);
-//        List<RoomDTO> listRoom = new ArrayList<>();
+String c = "Pres";
+        List<RoomDTO> listRoom = new ArrayList<>();
+        listRoom = roomDAO.listSearch(0, "%");
 //        listRoom = roomDAO.list();
-//        for (RoomDTO a : listRoom) {
-//            for(ImageDTO b : a.getListImg()){
-//                System.out.println(b.getImgSrc());
-//            }
-//        }
+        if (listRoom != null) {
+            for (RoomDTO a : listRoom) {
+                System.out.println(a.toString());
+            }
+        } else {
+            System.out.println("mmb");
+        }
     }
+
 }

@@ -78,7 +78,7 @@ public class ReceiptDTO {
     }
 
     public ServiceDTO getServiceDTO() {
-        return serviceDTO;
+       return serviceDTO;
     }
 
     public void setServiceDTO(ServiceDTO serviceDTO) {

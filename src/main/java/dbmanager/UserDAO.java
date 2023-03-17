@@ -372,12 +372,12 @@ public class UserDAO implements DAOInterface<UserDTO> {
 //        //USER CONSTRUCTOR
 //        String userID = AUTO_USER_ID;
 //        System.out.println(userID);
-        UserDAO userDAO = new UserDAO();
-        UserDTO userDTO = new UserDTO();
-        userDTO = userDAO.selectById("US002");
-        userDTO.setPhoneNumber("123456789");
-        userDAO.update(userDTO);
-        System.out.println(userDTO.toString());
+//        UserDAO userDAO = new UserDAO();
+//        UserDTO userDTO = new UserDTO();
+//        userDTO = userDAO.selectById("US002");
+//        userDTO.setPhoneNumber("123456789");
+//        userDAO.update(userDTO);
+//        System.out.println(userDTO.toString());
 //        int a =0;
 //        for(a=0 ; a<10;a++){
 //        String formatted = String.format("US%03d", a);

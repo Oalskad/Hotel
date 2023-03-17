@@ -97,10 +97,12 @@
                             <div class="u-container-style u-gradient u-layout-cell u-size-30 u-layout-cell-1">
                                 <div class="u-border-2 u-border-grey-75 u-border-no-bottom u-container-layout u-container-layout-1">
                                     <img src="<%=url%>/images/rikka-takanashi.gif" alt="" class="u-image u-image-circle u-image-1" data-image-width="1280" data-image-height="1280">
+                                    <form action="/Hotel/Profile/details"method="post">
                                     <p class="u-text u-text-1">
-                                        <a class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-link u-button-style u-none u-text-body-color u-text-hover-palette-1-base u-btn-1" href="#">Change your avatar<br>
+                                        <a class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-link u-button-style u-none u-text-body-color u-text-hover-palette-1-base u-btn-1" ><button class="btn btn-outline-danger" type="submit">Show receipt details</button><br>
                                         </a>
                                     </p>
+                                    </form>
                                     <p class="u-text u-text-2">
                                         <a class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-link u-button-style u-none u-text-body-color u-text-hover-palette-1-base u-btn-2" href="<%= url%>/userUpdate.jsp"><button class="btn btn-outline-danger" value="Edit profile">Edit profile </button><br>
                                         </a>

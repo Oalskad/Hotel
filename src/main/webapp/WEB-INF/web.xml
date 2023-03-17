@@ -28,8 +28,27 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>HomePageController</servlet-name>
-        <url-pattern>/HomePage</url-pattern>
+        <url-pattern>/HomePage/*</url-pattern>
     </servlet-mapping>
+    
+     <servlet>
+        <servlet-name>UserProfileController</servlet-name>
+        <servlet-class>Controller.UserProfileController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserProfileController</servlet-name>
+        <url-pattern>/Profile/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>SearchController/servlet-name></servlet-name>
+        <servlet-class>Controller.SearchController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchController</servlet-name>
+        <url-pattern>/SearchController</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

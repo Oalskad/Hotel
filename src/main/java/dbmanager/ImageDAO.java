@@ -83,12 +83,12 @@ public class ImageDAO implements DAOInterface<ImageDTO> {
     }
 
     public static void main(String[] args) {
-        ImageDAO imgDAO = new ImageDAO();
-        List<ImageDTO> listImg = imgDAO.listImageSelectById("RO001");
-        System.out.println(listImg.size());
-        for (ImageDTO a : listImg) {
-            System.out.println(a.getImgSrc());
-        }
+//        ImageDAO imgDAO = new ImageDAO();
+//        List<ImageDTO> listImg = imgDAO.listImageSelectById("RO001");
+//        System.out.println(listImg.size());
+//        for (ImageDTO a : listImg) {
+//            System.out.println(a.getImgSrc());
+//        }
     }
 
 }

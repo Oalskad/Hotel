@@ -57,6 +57,12 @@
     <!-- Main Stylesheet File -->
     <link href="<%= url%>/css/hover-style.css" rel="stylesheet">
     <link href="<%= url%>/css/style.css" rel="stylesheet">
+    <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+
 </head>
 
 <body>
@@ -74,7 +80,7 @@
         <div class="mobile-menu-btn"><i class="fa fa-bars"></i></div>
         <nav class="main-menu top-menu">
             <ul>
-                <li class="active"><a href="index.html">Home</a></li>
+                <li class="active"><a href="<%=url %>/HomePage">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="room.html">Rooms</a></li>
                 <li><a href="amenities.html">Amenities</a></li>
@@ -119,131 +125,194 @@
             <a href="#">Book Now</a>
         </div>
     </div>
+    <!--
+        //search section -->
+    <form action="<%=url %>/SearchController" method="Get">
+    <div id="search">
+        <div class="container">
+            <div class="form-row">
+                
+                <div class="control-group col-md-6">
+
+                    <label>Room Type</label>
+                    <select class="custom-select" name="roomType">
+                        <option selected value="">All</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Premium">Premium</option>
+                        <option value="Deluxe">Deluxe</option>      
+                        <option value="President">President Suite</option>
+
+                    </select>
+                </div>
+                
+                    <div class="control-group col-md-3">
+                        <div class="form-row">
+                            <div class="control-group col-md-6">
+                                <label>Adult</label>
+                                <select class="custom-select" name="numbOfPeople">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+
+                                </select>
+                            </div>
+                            <div class="control-group col-md-6 kid">
+                                <label>Kid</label>
+                                <select class="custom-select" name="numbOfChildren">
+                                    <option selected value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group col-md-3">
+                        <button class="btn btn-block" type="submit">Search</button>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+       </form>
+
+    <!--//-->
+
 
     <div id="rooms">
         <div class="container">
-            <div class="section-header">
-                <h2>Our Rooms</h2>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in mi libero. Quisque convallis, enim at venenatis tincidunt.
-                </p>
-            </div>
-            <div class="row">
 
+            <% for (RoomDTO a : listRoom) {%>
+            <form action="/Hotel/Book/detail" method="POST">
+                <div class="row">
+                    <div class="col-md-3">
+                        <%  List<ImageDTO> listImg = new ArrayList();
+                            listImg = roomDAO.getListImg(a.getRoomID());%>
 
-
-                <br></br>
-
-                <% for (RoomDTO a : listRoom) {%>
-                <form action="/Hotel/Book/detail" method="POST">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <%  List<ImageDTO> listImg = new ArrayList();
-                                listImg = roomDAO.getListImg(a.getRoomID());%>
-
-                            <div class="room-img">
-                                <div class="box12">
-                                    <img src="<%= listImg.get(0).getImgSrc()%>">
-                                    <div class="box-content">
-                                        <h3 class="title">Standard Single</h3>
-                                        <ul class="icon">
-                                            <li><a href="#" data-toggle="modal" data-target="#modal-id"><i class="fa fa-link"></i></a></li>
-                                        </ul>
-                                    </div>
+                        <div class="room-img">
+                            <div class="box12">
+                                <img src="<%= listImg.get(0).getImgSrc()%>">
+                                <div class="box-content">
+                                    <h3 class="title">Standard Single</h3>
+                                    <ul class="icon">
+                                        <li><a href="./Details.jsp?roomID=<%= a.getRoomID() %>" data-toggle="modal" data-target="#modal-id"><i class="fa fa-link"></i></a></li>
+                                    </ul>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="col-md-6">
-                            <div class="room-des">
-                                <h3><a href="#" data-toggle="modal" data-target="#modal-id"><%= a.getType()%></a></h3>
-                                <p><%= a.getDescription()%></p>
-                                <ul class="room-size">
-                                    <li><i class="fa fa-arrow-right"></i>BedType <%= a.getBedType()%> </li>
-                                    <li><i class="fa fa-arrow-right"></i>Beds: <%= a.getNumberOfBed()%> </li>
-                                </ul>
-                                <ul class="room-icon">
-                                    <li class="icon-1"></li>
-                                    <li class="icon-2"></li>
-                                    <li class="icon-3"></li>
-                                    <li class="icon-4"></li>
-                                    <li class="icon-5"></li>
-                                    <li class="icon-6"></li>
-                                    <li class="icon-7"></li>
-                                    <li class="icon-8"></li>
-                                    <li class="icon-9"></li>
-                                    <li class="icon-10"></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="room-rate">
-                                <% String disable = "";
-                                    String value = "Book";
-                                    String backgroundColor = "";
-                                    if (!a.isStatus()) {
-                                        disable = "disabled";
-                                        value = "Booked";
-                                        backgroundColor = "red";
-                                    }
-                                %>
-                                <h3>From</h3>
-                                <h1>$<%= a.getDailyPrice()%></h1>
-                                <input type="hidden" name="roomID" value="<%= a.getRoomID()%>">  
 
-                                <input class="btn btn-outline-danger" type='submit' value='<%= value%>' <%= disable + ""%>>
-
-                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="room-des">
+                            <h3><a href="./Details.jsp?roomID=<%= a.getRoomID() %>" data-toggle="modal" data-target="#modal-id"><%= a.getType()%></a></h3>
+                            <p><%= a.getDescription()%></p>
+                            <ul class="room-size">
+                                <li><i class="fa fa-arrow-right"></i>BedType <%= a.getBedType()%> </li>
+                                <li><i class="fa fa-arrow-right"></i>Beds: <%= a.getNumberOfBed()%> </li>
+                            </ul>
+                            <ul class="room-icon">
+                                <li class="icon-1"></li>
+                                <li class="icon-2"></li>
+                                <li class="icon-3"></li>
+                                <li class="icon-4"></li>
+                                <li class="icon-5"></li>
+                                <li class="icon-6"></li>
+                                <li class="icon-7"></li>
+                                <li class="icon-8"></li>
+                                <li class="icon-9"></li>
+                                <li class="icon-10"></li>
+                            </ul>
                         </div>
                     </div>
-                </form>
-                <hr>
+                    <div class="col-md-3">
+                        <div class="room-rate">
+                            <% String disable = "";
+                                String value = "Book";
+                                String backgroundColor = "";
+                                if (!a.isStatus()) {
+                                    disable = "disabled";
+                                    value = "Booked";
+                                    backgroundColor = "red";
+                                }
+                            %>
+                            <h3>From</h3>
+                            <h1>$<%= a.getDailyPrice()%></h1>
+                            <input type="hidden" name="roomID" value="<%= a.getRoomID()%>">  
 
+                            <input class="btn btn-outline-danger" type='submit' value='<%= value%>' <%= disable + ""%> >
 
-                <% }%>
-            </div>
-
-
-
-            <!-- Modal for Room Section End -->
-
-
-            <!-- Booking Section End -->
-
-
-            <!-- Footer Section Start -->
-            <div id="footer">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="social">
-                                <a href=""><li class="fa fa-instagram"></li></a>
-                                <a href=""><li class="fa fa-twitter"></li></a>
-                                <a href=""><li class="fa fa-facebook-f"></li></a>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <p>Copyright &#169; 2045 <a href="">Your Site Name</a> All Rights Reserved.</p>
-
-                            <!--/*** This template is free as long as you keep the footer author?s credit link/attribution link/backlink. If you'd like to use the template without the footer author?s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            <p>Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
                         </div>
                     </div>
                 </div>
+            </form>
+            <hr>
+
+
+            <% }%>
+        </div>
+
+
+
+        <!-- Modal for Room Section End -->
+
+
+        <!-- Booking Section End -->
+
+
+        <!-- Footer Section Start -->
+        <div id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="social">
+                            <a href=""><li class="fa fa-instagram"></li></a>
+                            <a href=""><li class="fa fa-twitter"></li></a>
+                            <a href=""><li class="fa fa-facebook-f"></li></a>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <p>Copyright &#169; 2045 <a href="">Your Site Name</a> All Rights Reserved.</p>
+
+                        <!--/*** This template is free as long as you keep the footer author?s credit link/attribution link/backlink. If you'd like to use the template without the footer author?s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        <p>Designed By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                    </div>
+                </div>
             </div>
+        </div>
 
 
-            <!-- Footer Section End -->
+        <!-- Footer Section End -->
 
-            <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+        <script>
+            /* When the user clicks on the button, 
+             toggle between hiding and showing the dropdown content */
+            function myFunction() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
 
-            <!-- Vendor JavaScript File -->
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+        </script>
+        <!-- Vendor JavaScript File -->
 
-            <!-- Booking Javascript File -->
-            <script src="js/booking.js"></script>
-            <script src="js/jqBootstrapValidation.min.js"></script>
+        <!-- Booking Javascript File -->
+        <script src="js/booking.js"></script>
+        <script src="js/jqBootstrapValidation.min.js"></script>
 
-            <!-- Main Javascript File -->
-            <script src="js/main.js"></script>
-            </body>
-            </html>
+        <!-- Main Javascript File -->
+        <script src="js/main.js"></script>
+</body>
+</html>
