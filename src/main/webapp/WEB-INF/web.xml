@@ -31,6 +31,25 @@
         <url-pattern>/HomePage/*</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>RoomDetailController</servlet-name>
+        <servlet-class>Controller.RoomDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RoomDetailController</servlet-name>
+        <url-pattern>/RoomDetailController</url-pattern>
+    </servlet-mapping>
+    
+    
+     <servlet>
+        <servlet-name>ReviewControler</servlet-name>
+        <servlet-class>Controller.ReviewControler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReviewControler</servlet-name>
+        <url-pattern>/ReviewControler/*</url-pattern>
+    </servlet-mapping>
+    
      <servlet>
         <servlet-name>UserProfileController</servlet-name>
         <servlet-class>Controller.UserProfileController</servlet-class>
@@ -41,7 +60,7 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>SearchController/servlet-name></servlet-name>
+        <servlet-name>SearchController</servlet-name>
         <servlet-class>Controller.SearchController</servlet-class>
     </servlet>
     <servlet-mapping>
@@ -49,12 +68,14 @@
         <url-pattern>/SearchController</url-pattern>
     </servlet-mapping>
     
+    
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>loginJSP.jsp</welcome-file>
+        <welcome-file>HomePage</welcome-file>
     </welcome-file-list>
 </web-app>

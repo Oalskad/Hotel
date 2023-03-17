@@ -196,7 +196,7 @@
                                 <div class="box-content">
                                     <h3 class="title">Standard Single</h3>
                                     <ul class="icon">
-                                        <li><a href="./Details.jsp?roomID=<%= a.getRoomID() %>" data-toggle="modal" data-target="#modal-id"><i class="fa fa-link"></i></a></li>
+                                        <li><a href="<%=url%>/RoomDetailController?roomID=<%= a.getRoomID() %>" data-toggle="modal" data-target="#modal-id"><i class="fa fa-link"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -205,7 +205,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="room-des">
-                            <h3><a href="./Details.jsp?roomID=<%= a.getRoomID() %>" data-toggle="modal" data-target="#modal-id"><%= a.getType()%></a></h3>
+                            <h3><a href="<%=url%>/RoomDetailController?roomID=<%= a.getRoomID() %>" data-toggle="modal" data-target="#modal-id"><%= a.getType()%></a></h3>
                             <p><%= a.getDescription()%></p>
                             <ul class="room-size">
                                 <li><i class="fa fa-arrow-right"></i>BedType <%= a.getBedType()%> </li>

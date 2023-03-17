@@ -41,7 +41,7 @@ public class ReviewDAO implements DAOInterface<ReviewDTO> {
             ps.setInt(6, t.getRating());
             ps.executeUpdate();
         } catch (SQLException ex) {
-           
+
         }
 
         return false;
@@ -62,11 +62,9 @@ public class ReviewDAO implements DAOInterface<ReviewDTO> {
 
             // Bước 3: thực thi câu lệnh SQL
             System.out.println(sql);
-           st.executeUpdate();
+            st.executeUpdate();
 
             // Bước 4:
-          
-
             // Bước 5:
             DBUtils.closeConnection(con);
             return true;
@@ -79,13 +77,13 @@ public class ReviewDAO implements DAOInterface<ReviewDTO> {
 
     @Override
     public boolean update(ReviewDTO t) {
-         int ketQua = 0;
+        int ketQua = 0;
         try {
             // Bước 1: tạo kết nối đến CSDL
             Connection con = DBUtils.getConnection();
 
             // Bước 2: tạo ra đối tượng statement
-            String sql = "UPDATE [dbo].[User] "
+            String sql = "UPDATE [dbo].[Review] "
                     + " SET "
                     + " [description]= ?"
                     + ", [rating] = ?"
@@ -121,7 +119,7 @@ public class ReviewDAO implements DAOInterface<ReviewDTO> {
 
     @Override
     public List<ReviewDTO> list() {
-         String sql = "select * from [dbo].[User]";
+        String sql = "select * from [dbo].[Review]";
         List<ReviewDTO> listReview = new ArrayList<>();
         try {
             Connection conn = DBUtils.getConnection();
@@ -138,7 +136,7 @@ public class ReviewDAO implements DAOInterface<ReviewDTO> {
                 ReceiptDAO receiptDAO = new ReceiptDAO();
                 UserDAO userDAO = new UserDAO();
                 RoomDAO roomDAO = new RoomDAO();
-                
+
                 ReviewDTO reviewDTO = new ReviewDTO();
                 reviewDTO.setReviewID(rs.getString(1));
                 reviewDTO.setReceiptDTO_ID(receiptDAO.selectById(rs.getString(2)));
@@ -146,18 +144,76 @@ public class ReviewDAO implements DAOInterface<ReviewDTO> {
                 reviewDTO.setRoomDTO_ID(roomDAO.selectById(rs.getString(4)));
                 reviewDTO.setDescription(rs.getString(5));
                 reviewDTO.setRating(rs.getInt(6));
-                
-                listReview .add(reviewDTO);
+
+                listReview.add(reviewDTO);
             }
-            return listReview ;
+            return listReview;
         } catch (Exception ex) {
             System.out.println("Query admin error!" + ex.getMessage());
         }
         return null;
     }
 
+    public List<ReviewDTO> listByID(String ID) {
+        String sql = "select * from [dbo].[Review] where roomID = ?";
+        List<ReviewDTO> listReview = new ArrayList<>();
+        try {
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, ID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+// String reviewID;
+//    ReceiptDTO receiptDTO_ID;
+//    UserDTO userDTO_ID;
+//    RoomDTO roomDTO_ID;
+//    String description;
+//    int Rating;
+
+                ReceiptDAO receiptDAO = new ReceiptDAO();
+                UserDAO userDAO = new UserDAO();
+                RoomDAO roomDAO = new RoomDAO();
+
+                ReviewDTO reviewDTO = new ReviewDTO();
+                reviewDTO.setReviewID(rs.getString(1));
+                reviewDTO.setReceiptDTO_ID(receiptDAO.selectById(rs.getString(2)));
+                reviewDTO.setUserDTO_ID(userDAO.selectById(rs.getString(3)));
+                reviewDTO.setRoomDTO_ID(roomDAO.selectById(rs.getString(4)));
+                reviewDTO.setDescription(rs.getString(5));
+                reviewDTO.setRating(rs.getInt(6));
+
+                listReview.add(reviewDTO);
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Query admin error!" + ex.getMessage());
+        }
+        if (!listReview.isEmpty()) {
+            return listReview;
+        }
+        return null;
+    }
+
+    public int generateNextUserID() {
+        List<ReviewDTO> list = list();
+        try {
+            if (list.size() > 0) {
+                ReviewDTO e = list.get(list.size() - 1);
+                int numberOnly = Integer.parseInt(e.getReviewID().replaceAll("[^0-9]", ""));
+                return numberOnly + 1;
+            }
+        } catch (Exception e) {
+
+        }
+        return 1;
+    }
+
     public static void main(String[] args) {
-        int a = (int) Math.round(3.5);
-        System.out.println(a);
+        ReviewDAO reviewDAO = new ReviewDAO();
+        List<ReviewDTO> listReview = new ArrayList();
+        listReview = reviewDAO.listByID("RO002");
+        for(ReviewDTO a : listReview){
+            System.out.println(a.getDescription());
+        }
     }
 }

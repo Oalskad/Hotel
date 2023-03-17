@@ -95,6 +95,7 @@
                     <th scope="col">Check-In</th>
                     <th scope="col">Check-Out</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Rate</th>
                 </tr>
             </thead>
             <tbody>
@@ -121,6 +122,7 @@
                     <td><%= receiptDTO.getStartDate()%></td>
                     <td><%= receiptDTO.getEndDate()%></td>
                     <td><%= receiptDTO.getFinalPrice()%></td>
+                    <td><a href="<%=url%>/Review.jsp?receiptID=<%= receiptDTO.getReceiptID() %>"> <input class="btn btn-outline-danger" type='button'value="Rate"  ></a></td>
                 </tr>
                 <% }
                 } else {%>

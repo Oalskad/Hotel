@@ -42,7 +42,7 @@
         <link href="<%= url%>/css/hover-style.css" rel="stylesheet">
         <link href="<%= url%>/css/style.css" rel="stylesheet">
     </head>
-    <% 
+    <%
         RoomDAO roomDAO = new RoomDAO();
         RoomDTO roomDTO = roomDAO.selectById(request.getParameter("roomID"));
         List<ImageDTO> listImg = roomDTO.getListImg();
@@ -54,12 +54,12 @@
 
             <%@include file="header.jsp" %>
         </header>
-        
+
         <!-- Details Section Start -->
 
         <section class="u-align-center u-clearfix u-section-1" id="sec-9f66">
             <div class="u-clearfix u-sheet u-sheet-1">
-                <h3 class="u-text u-text-default u-text-1">Single Room</h3>
+                <h3 class="u-text u-text-default u-text-1">${requestScope.roomDTO.type}</h3>
                 <div class="u-carousel u-gallery u-gallery-slider u-layout-carousel u-lightbox u-no-transition u-show-text-on-hover u-gallery-1" id="carousel-d2d5" data-interval="5000" data-u-ride="carousel">
                     <ol class="u-absolute-hcenter u-carousel-indicators u-carousel-indicators-1">
                         <li data-u-target="#carousel-d2d5" data-u-slide-to="0" class="u-active u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
@@ -67,19 +67,19 @@
                         <li data-u-target="#carousel-d2d5" data-u-slide-to="2" class="u-grey-70 u-shape-circle" style="width: 10px; height: 10px;"></li>
                     </ol>
                     <div class="u-carousel-inner u-gallery-inner" role="listbox">
-                            <% for (ImageDTO imgDTOe : listImg) {
-                                int a = 2;%>
-                        <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-+<%= a %>">
+                        <% for (ImageDTO imgDTOe : listImg) {
+                                    int a = 2;%>
+                        <div class="u-carousel-item u-effect-fade u-gallery-item u-carousel-item-+<%= a%>">
                             <div class="u-back-slide">
-                                <img class="u-back-image u-expanded" src="<%= imgDTOe.getImgSrc() %>">
+                                <img class="u-back-image u-expanded" src="<%= imgDTOe.getImgSrc()%>">
                             </div>
-                            <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-+<%= a %>">
+                            <div class="u-align-center u-over-slide u-shading u-valign-bottom u-over-slide-+<%= a%>">
                                 <h3 class="u-gallery-heading">Sample Title</h3>
                                 <p class="u-gallery-text">Sample Text</p>
                             </div>
                         </div>
-                             <% a++;
-                            }%>
+                        <% a++;
+                                 }%>
                         <div class="u-active u-carousel-item u-effect-fade u-gallery-item u-carousel-item-3">
                             <div class="u-back-slide">
                                 <img class="u-back-image u-expanded" src="https://pix10.agoda.net/hotelImages/124/1246280/1246280_16061017110043391702.jpg?ca=6&ce=1&s=1024x768">
@@ -155,23 +155,55 @@
                 </div>
                 <div class="u-container-style u-expanded-width u-group u-white u-group-2">
                     <div class="u-container-layout u-valign-top u-container-layout-2">
-                        <p class="u-align-justify u-text u-text-16"><%= roomDTO.getDescription() %> <br>Bed option:<%= roomDTO.getBedType() %> <br> Non smoking room
+                        <p class="u-align-justify u-text u-text-16"><%= roomDTO.getDescription()%> <br>Bed option:<%= roomDTO.getBedType()%> <br> Non smoking room
                             </span>
                             <br>
                             <br>
-                            
-                        </p>
-                        <h5 class="u-align-center u-text u-text-17">Price <%= roomDTO.getDailyPrice() %></h5>
-                        <h5 class="u-align-center u-text u-text-18">Guests <%= roomDTO.getNumberOfBed()*2 %></h5>
-                        <form action="/Hotel/Book/detail" method="POST">
-                        <input type="hidden" name="roomID" value="<%= roomDTO.getRoomID()%>">  
 
-                        <input class="btn btn-outline-danger" type='submit' > 
+                        </p>
+                        <h5 class="u-align-center u-text u-text-17">Price <%= roomDTO.getDailyPrice()%></h5>
+                        <h5 class="u-align-center u-text u-text-18">Guests <%= roomDTO.getNumberOfBed() * 2%></h5>
+                        <form action="/Hotel/Book/detail" method="POST">
+                            <input type="hidden" name="roomID" value="<%= roomDTO.getRoomID()%>">  
+
+                            <input class="btn btn-outline-danger" type='submit' > 
                         </form>
                     </div>
                 </div>
+                <section style="background-color: #e7effd;">
+                    <div class="container my-5 py-5 text-dark">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-11 col-lg-9 col-xl-7">
+                                
+                                
+
+                                <div class="d-flex flex-start">
+                                   
+                                    <div class="card w-100">
+                                        <div class="card-body p-4">
+                                            <div class="">
+                                                <h5></h5>
+                                                <p class="small">5 hours ago</p>
+                                                <p>
+                                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus
+                                                    cumque doloribus dolorum dolor repellat nemo animi at iure autem fuga
+                                                    cupiditate architecto ut quam provident neque, inventore nisi eos quas?
+                                                </p>
+
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
+
         </section>
+
+
 
         <!-- Details Section End -->
 

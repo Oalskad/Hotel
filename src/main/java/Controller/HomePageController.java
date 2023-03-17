@@ -43,49 +43,19 @@ public class HomePageController extends HttpServlet {
         String path = request.getPathInfo();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            
+              
             RoomDAO roomDAO = new RoomDAO();
             List<RoomDTO> listRoom = new ArrayList<RoomDTO>();
             listRoom = roomDAO.list();
+           
             request.setAttribute("listRoom", listRoom);
+           
             RequestDispatcher rs = request.getRequestDispatcher("HomePage.jsp");
             rs.forward(request, response);
-            /* TODO output your page here. You may use following sample code. */
-//            if (path == null) {
-//                RoomDAO roomDAO = new RoomDAO();
-//                List<RoomDTO> listRoom = new ArrayList<RoomDTO>();
-//                listRoom = roomDAO.list();
-//                request.setAttribute("listRoom", listRoom);
-//                RequestDispatcher rs = request.getRequestDispatcher("HomePage.jsp");
-//                rs.forward(request, response);
-//            } else {
-//                search(request, response);
-//            }
-//            
+
         }
     }
-
-//    public void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String roomType = request.getParameter("roomType");
-//        int numbOfPeople = Integer.parseInt(request.getParameter("numbOfPeople"));
-//
-//        int numbOfChildren = Integer.parseInt(request.getParameter("numbOfChildren"));
-//        if (numbOfChildren > 0) {
-//            numbOfChildren = (int) Math.round(numbOfPeople / 2);
-//        }
-//
-//        int totalPeople = numbOfPeople + numbOfChildren;
-//
-//        if (totalPeople >= 3) {
-//            totalPeople = 3;
-//        }
-//        RoomDAO roomDAO = new RoomDAO();
-//        List<RoomDTO> listRoom = new ArrayList<RoomDTO>();
-//        listRoom = roomDAO.listSearch(totalPeople, roomType);
-//        request.setAttribute("listRoom", listRoom);
-//        RequestDispatcher rs = request.getRequestDispatcher("HomePage.jsp");
-//        rs.forward(request, response);
-//
-//    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

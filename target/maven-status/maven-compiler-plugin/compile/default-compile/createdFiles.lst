@@ -1,7 +1,9 @@
 Model\RoomDTO.class
 Model\UserDTO.class
+Controller\NewServlet.class
 dbmanager\DAOInterface.class
 Utils\DBUtils.class
+Controller\RoomDetailController.class
 dbmanager\ImageDAO.class
 dbmanager\UserDAO.class
 Model\EmployeeDTO.class
@@ -10,6 +12,7 @@ Controller\HomePageController.class
 dbmanager\AdminDAO.class
 Model\ReceiptDTO.class
 Model\roomTypeDTO.class
+Controller\ReviewControler.class
 dbmanager\CouponDAO.class
 dbmanager\ServiceDAO.class
 dbmanager\ReceiptDAO.class

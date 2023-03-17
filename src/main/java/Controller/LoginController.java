@@ -16,7 +16,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
 
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +40,7 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getPathInfo();
-    
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
@@ -53,7 +52,7 @@ public class LoginController extends HttpServlet {
                 createUser(request, response);
             } else if (path.equalsIgnoreCase("/logout")) {
                 logout(request, response);
-            } 
+            }
         }
     }
 
@@ -67,18 +66,26 @@ public class LoginController extends HttpServlet {
 
     //Method login
     public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String url = "";
         HttpSession session = request.getSession();
         UserDAO userDAO = new UserDAO();
         String user = (String) request.getParameter("userName");
         String password = (String) request.getParameter("password");
-        
 
         UserDTO userDTO = userDAO.login(user, password);
         if (userDTO != null) {
-            
+
             session.setAttribute("userDTO", userDTO);
-            response.sendRedirect(request.getContextPath()+"/HomePage");
+            if (session.getAttribute("roomID") != null) {
+                request.setAttribute("roomID", session.getAttribute("roomID"));
+
+                RequestDispatcher rd = request.getRequestDispatcher("/Book/detail");
+                rd.forward(request, response);
+            } else {
+
+                response.sendRedirect(request.getContextPath() + "/HomePage");
+            }
 
         } else {
             if (user != null || password != null) {
@@ -88,13 +95,13 @@ public class LoginController extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
-        
+
     }
 
     //Method signup
     public void createUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
-        
+
         String errorMessage = "";
         String errorMessageDate = "";
         boolean error = true;
@@ -136,10 +143,6 @@ public class LoginController extends HttpServlet {
             rd.forward(request, response);
         }
     }
-
-    
-    
-    
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -37,7 +37,7 @@ import sun.security.rsa.RSACore;
  */
 @WebServlet(name = "BookController", urlPatterns = {"/BookController"})
 public class BookController extends HttpServlet {
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,79 +51,59 @@ public class BookController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getPathInfo();
+        HttpSession session = request.getSession(false);
 
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+
             if (path.equals("/detail")) {
-                out.print("ewqeqweqewqewqwe");
-                HttpSession session = request.getSession();
-                UserDTO userDTO = new UserDTO();
-                if (session.getAttribute("userDTO") != null) {
-                    userDTO = (UserDTO) session.getAttribute("userDTO");
-                }
-                out.print(userDTO.getUserName());
-                String roomID = null;
-                RoomDTO roomDTO = null;
-                roomID = request.getParameter("roomID");
-                if (roomID != null) {
+
+                if (session.getAttribute("userDTO") == null) {
+                    session.setAttribute("roomID", request.getParameter("roomID"));
+                    response.sendRedirect(request.getContextPath() + "/loginJSP.jsp");
+                } else {
+//                  
+                    UserDTO userDTO = new UserDTO();
+                    if (session.getAttribute("userDTO") != null) {
+                        userDTO = (UserDTO) session.getAttribute("userDTO");
+                    }
+                    out.print(userDTO.getUserName());
+                    out.print(request.getAttribute("roomID"));
+                    String roomID = null;
+                    RoomDTO roomDTO = null;
+
                     RoomDAO roomDAO = new RoomDAO();
-                    roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
+                    if (request.getParameter("roomID") != null) {
+                        roomDTO = roomDAO.selectByRoomID(request.getParameter("roomID"));
+                    } else {
+                        roomDTO = roomDAO.selectByRoomID((String) request.getAttribute("roomID"));
+                    }
                     out.print("succcesss");
                     out.print(roomDTO.toString());
+
+                    ServiceDAO serviceDAO = new ServiceDAO();
+                    List<ServiceDTO> listService = new ArrayList<ServiceDTO>();
+                    listService = serviceDAO.list();
+
+                    Date date = Date.valueOf(LocalDate.now());
+
+                    request.setAttribute("date", date);
+                    request.setAttribute("listService", listService);
+                    request.setAttribute("roomDTO", roomDTO);
+
+                    RequestDispatcher rd = request.getRequestDispatcher("/BookPage.jsp");
+                    rd.forward(request, response);
                 }
-
-                ServiceDAO serviceDAO = new ServiceDAO();
-                List<ServiceDTO> listService = new ArrayList<ServiceDTO>();
-                listService = serviceDAO.list();
-
-                Date date = Date.valueOf(LocalDate.now());
-
-                request.setAttribute("date", date);
-                request.setAttribute("listService", listService);
-                request.setAttribute("roomDTO", roomDTO);
-
-                RequestDispatcher rd = request.getRequestDispatcher("/BookPage.jsp");
-                rd.forward(request, response);
             } else if (path.equals("/book")) {
-//                 Date startDate = null;
-//            try {
-//                startDate = Date.valueOf(request.getParameter("startDate"));
-//            } catch (Exception e) {
-//            }
-//
-//            Date endDate = null;
-//            try {
-//                endDate = Date.valueOf(request.getParameter("endDate"));
-//            } catch (Exception e) {
-//
-//            }
 
-            //Method to caculate days booked
-//            Calendar cal = Calendar.getInstance();
-//            cal.setTime(startDate); // .LocalDate();
-//            int intStarDate = cal.get(Calendar.DAY_OF_MONTH);
-//            cal = Calendar.getInstance();
-//            cal.setTime(endDate);
-//            int intEndDate = cal.get(Calendar.DAY_OF_MONTH);
-//            int daysBooked = intEndDate - intStarDate;
-//                out.print(daysBooked);
-//                ServiceDAO serviceDAO = new ServiceDAO();
-//            ServiceDTO serviceDTO = new ServiceDTO();
-//            CouponDAO couponDAO = new CouponDAO();
-//            CouponDTO couponDTO = new CouponDTO();
-//            
-//            RoomDAO roomDAO = new RoomDAO();
-//            RoomDTO roomDTO = roomDAO.selectByRoomID("RO001");
-//               double a = finalPrice(daysBooked, roomDTO, couponDTO, serviceDTO);
-//               out.print(a);
-              
                 ReceiptDTO receiptDTO = createReceipt(request, response);
-                try{
-                if (receiptDTO != null) {
-                    out.print(receiptDTO.toString());
-                } else {
-                    out.print("12313123");
-                }}catch(Exception e){
+                try {
+                    if (receiptDTO != null) {
+                        response.sendRedirect(request.getContextPath() + "/HomePage");
+                    } else {
+                        out.print("Error");
+                    }
+                } catch (Exception e) {
                     out.print(e);
                 }
             }
@@ -166,7 +146,6 @@ public class BookController extends HttpServlet {
             String receiptID = RECEIPT_ID;
 
             //GET startDate and endDate
-          
             Date startDate = null;
             try {
                 startDate = Date.valueOf(request.getParameter("startDate"));
@@ -220,7 +199,7 @@ public class BookController extends HttpServlet {
 
     }
 
-    public double finalPrice( int daysBooked, RoomDTO roomDTO, CouponDTO couponDTO, ServiceDTO serviceDTO) {
+    public double finalPrice(int daysBooked, RoomDTO roomDTO, CouponDTO couponDTO, ServiceDTO serviceDTO) {
         double finalPrice = 0;
         double servicePrice = 1;
         double coupon = 1;
@@ -274,7 +253,4 @@ public class BookController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    
-    
 }
-
